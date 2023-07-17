@@ -8,18 +8,20 @@ mysql -h 10.10.14.125 -u te{your roll number} -p
 Then enter the password.
 
 ## Useful Commands
-
-- `USE {db name}` : Uses the specified database.
+### USE
+`USE {db name}` : Uses the specified database.
 ```
 USE 31380_db
 ```
 ---
-- `CREATE TABLE {table name} (colname datatype, colname datatype, colname datatype);`: Creates a table
+### CREATE
+`CREATE TABLE {table name} (colname datatype, colname datatype, colname datatype);`: Creates a table
 ```
 CREATE TABLE student (Roll INT, Name VARCHAR(150), Marks INT);
 ```
 ---
-- `SHOW TABLES;` : Shows all tables present in the current database.
+### SHOW
+`SHOW TABLES;` : Shows all tables present in the current database.
 ```
 SHOW TABLES;
 ```
@@ -33,7 +35,8 @@ Output:
 1 row in set (0.00 sec)
 ```
 ---
-- `DESCRIBE {table}` : Shows all info related to the given table.
+### DESCRIBE
+`DESCRIBE {table}` : Shows all info related to the given table.
 ```
 DESCRIBE student;
 ```
@@ -50,13 +53,15 @@ Output:
 4 rows in set (0.00 sec)
 ```
 ---
-- `INSERT INTO {table} VALUES {records};`
+### INSERT
+`INSERT INTO {table} VALUES {records};`
 ```
 INSERT INTO student values (01, 'ABC', 70);
 INSERT INTO student values (02, 'DEF', 80), (03, 'GHI', 90);
 ```
 ---
-- `SELECT {field names / *} FROM {table name} WHERE {condition};`
+### SELECT
+`SELECT {field names / *} FROM {table name} WHERE {condition};`
 ```
 SELECT * from student;
 ```
