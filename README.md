@@ -1,5 +1,9 @@
 # Database Management Systems Lab
 
+<details>
+
+<summary>Getting started with MySQL and basic commands.</summary>
+
 ## Getting Started
 To start MySQL / MariaDB in terminal, enter:
 ```
@@ -197,3 +201,4 @@ UPDATE Customers
 SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
 WHERE CustomerID = 1;
 ```
+</details>
