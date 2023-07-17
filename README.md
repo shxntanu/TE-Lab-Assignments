@@ -1,1 +1,1 @@
-# TE-Lab-Assignments
+# TE Lab Assignments
