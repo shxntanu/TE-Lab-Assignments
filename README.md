@@ -148,3 +148,36 @@ MariaDB [31380_db]> SELECT Name, Roll FROM student where Roll=5&&Name='MNO';
 2 rows in set (0.001 sec)
 ```
 ---
+### DELETE
+`DELETE FROM {table name} WHERE {condition};` : Deletes a given record from the current table.
+```
+MariaDB [31380_db]> DELETE FROM student WHERE Roll=1;
+Query OK, 1 row affected (0.042 sec)
+
+MariaDB [31380_db]> SELECT * from student;
++------+------+-------+
+| Roll | name | Marks |
++------+------+-------+
+|    2 | DEF  |    80 |
+|    3 | GHI  |    90 |
+|    4 | JKL  |    65 |
+|    5 | MNO  |    75 |
+|    4 | JKL  |    65 |
+|    5 | MNO  |    75 |
++------+------+-------+
+6 rows in set (0.001 sec)
+
+MariaDB [31380_db]> DELETE FROM student WHERE Roll=5;
+Query OK, 2 rows affected (0.038 sec)
+
+MariaDB [31380_db]> SELECT * from student;
++------+------+-------+
+| Roll | name | Marks |
++------+------+-------+
+|    2 | DEF  |    80 |
+|    3 | GHI  |    90 |
+|    4 | JKL  |    65 |
+|    4 | JKL  |    65 |
++------+------+-------+
+4 rows in set (0.001 sec)
+```
