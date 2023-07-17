@@ -181,3 +181,19 @@ MariaDB [31380_db]> SELECT * from student;
 +------+------+-------+
 4 rows in set (0.001 sec)
 ```
+---
+### DROP
+`DROP TABLE {table name}` : Deletes the table and schema.
+```
+DROP TABLE student;
+```
+---
+### UPDATE
+`UPDATE {table name} 
+SET column1 = value1, column2 = value2, ... 
+WHERE {condition};`
+```
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
+WHERE CustomerID = 1;
+```
