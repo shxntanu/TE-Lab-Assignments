@@ -42,15 +42,14 @@ DESCRIBE student;
 ```
 Output:
 ```
-+-------+------------------+------+-----+---------+----------------+
-| Field | Type             | Null | Key | Default | Extra          |
-+-------+------------------+------+-----+---------+----------------+
-| id    | int(10) unsigned | NO   | PRI | NULL    | auto_increment |
-| name  | varchar(150)     | NO   |     | NULL    |                |
-| owner | varchar(150)     | NO   |     | NULL    |                |
-| birth | date             | NO   |     | NULL    |                |
-+-------+------------------+------+-----+---------+----------------+
-4 rows in set (0.00 sec)
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| Roll  | int(11)      | YES  |     | NULL    |       |
+| name  | varchar(150) | YES  |     | NULL    |       |
+| Marks | int(11)      | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+3 rows in set (0.002 sec)
 ```
 ---
 ### INSERT
