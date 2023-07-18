@@ -11,6 +11,12 @@ mysql -h 10.10.14.125 -u te{your roll number} -p
 ```
 Then enter the password.
 
+</details>
+
+<details>
+
+<summary>Useful Commands</summary>
+
 ## Useful Commands
 ### USE
 `USE {db name}` : Uses the specified database.
