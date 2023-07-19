@@ -1,9 +1,5 @@
 # Database Management Systems Lab
 
-<details>
-
-<summary>Getting started with <em>MySQL and basic commands.</em></summary>
-
 ## Getting Started
 To start MySQL / MariaDB in terminal, enter:
 ```
@@ -11,27 +7,36 @@ mysql -h 10.10.14.125 -u te{your roll number} -p
 ```
 Then enter the password.
 
-</details>
+## Table Creation Commands
 
 <details>
+<summary>USE</summary>
 
-<summary>Table Creation Commands</summary>
+Uses the specified database.
 
-## Table Creation Commands
-### USE
-`USE {db name}` : Uses the specified database.
+`USE {db name}`
 ```
 USE 31380_db
 ```
----
-### CREATE
-`CREATE TABLE {table name} (colname datatype, colname datatype, colname datatype);`: Creates a table
+</details>
+
+<details>
+<summary>CREATE</summary>
+    
+Creates a table.
+
+`CREATE TABLE {table name} (colname datatype, colname datatype, colname datatype);`
 ```
 CREATE TABLE student (Roll INT, Name VARCHAR(150), Marks INT);
 ```
----
-### SHOW
-`SHOW TABLES;` : Shows all tables present in the current database.
+</details>
+
+<details>
+<summary>SHOW</summary>
+
+Shows all tables present in the current database.
+    
+`SHOW TABLES;`
 ```
 SHOW TABLES;
 ```
@@ -44,9 +49,14 @@ Output:
 +--------------------+
 1 row in set (0.00 sec)
 ```
----
-### DESCRIBE
-`DESCRIBE {table}` : Shows all info related to the given table.
+</details>
+
+<details>
+<summary>DESCRIBE</summary>
+
+Shows all info related to the given table.
+    
+`DESCRIBE {table}`
 ```
 DESCRIBE student;
 ```
