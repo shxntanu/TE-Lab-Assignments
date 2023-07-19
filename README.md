@@ -64,7 +64,9 @@ Output:
 </details>
 
 <details>
+    
     <summary>Table Updation Commands</summary>
+    
 ### INSERT
 `INSERT INTO {table} VALUES {records};`
 ```
