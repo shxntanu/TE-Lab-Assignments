@@ -286,3 +286,14 @@ ALTER TABLE table_name
     [FIRST | AFTER column_name];
 ```
 </details>
+
+<details>
+    <summary>Add a column with default value</summary>
+
+    ```
+    ALTER TABLE table_name 
+        ADD col_name data_type 
+        DEFAULT def_value 
+        [FIRST | AFTER column_name];
+    ```
+</details>
