@@ -297,3 +297,11 @@ ALTER TABLE table_name
         [FIRST | AFTER column_name];
     ```
 </details>
+
+<details>
+    <summary>Rename a table</summary>
+
+    ```
+    ALTER TABLE old_table_name RENAME new_table_name;
+    ```
+</details>
