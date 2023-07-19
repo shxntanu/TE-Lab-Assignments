@@ -73,18 +73,21 @@ Output:
 ```
 </details>
 
-<details>
-<summary>Table Updation Commands</summary>
-
 ## Table Updation Commands
-### INSERT
+
+<details>
+<summary>INSERT</summary>
+    
 `INSERT INTO {table} VALUES {records};`
 ```
 INSERT INTO student values (01, 'ABC', 70);
 INSERT INTO student values (02, 'DEF', 80), (03, 'GHI', 90);
 ```
----
-### SELECT
+</details>
+
+<details>
+<summary>SELECT</summary>
+
 `SELECT {field names / *} FROM {table name} WHERE {condition};`
 ```
 SELECT * from student;
@@ -172,8 +175,11 @@ MariaDB [31380_db]> SELECT Name, Roll FROM student where Roll=5&&Name='MNO';
 +------+------+
 2 rows in set (0.001 sec)
 ```
----
-### DELETE
+</details>
+
+<details>
+<summary>DELETE</summary>
+    
 `DELETE FROM {table name} WHERE {condition};` : Deletes a given record from the current table.
 ```
 MariaDB [31380_db]> DELETE FROM student WHERE Roll=1;
@@ -206,14 +212,20 @@ MariaDB [31380_db]> SELECT * from student;
 +------+------+-------+
 4 rows in set (0.001 sec)
 ```
----
-### DROP
+</details>
+
+<details>
+<summary>DROP</summary>
+    
 `DROP TABLE {table name}` : Deletes the table and schema.
 ```
 DROP TABLE student;
 ```
----
-### Update an entry (UPDATE)
+</details>
+
+<details>
+<summary>Update an entry (UPDATE)</summary>
+    
 `UPDATE {table name} 
 SET column1 = value1, column2 = value2, ... 
 WHERE {condition};`
@@ -222,9 +234,13 @@ UPDATE Customers
 SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
 WHERE CustomerID = 1;
 ```
----
+</details>
+
 ## Updating the Schema (ALTER)
-### ADD
+
+<details>
+<summary>ADD</summary>
+    
 Add a new column to the DB.
 ```
 ALTER TABLE table_name
@@ -234,14 +250,21 @@ ALTER TABLE table_name
     [FIRST | AFTER column_name],
     ...;
 ```
-### 
-### DROP
+</details>
+
+<details>
+<summary>DROP</summary>
+    
 Delete a column from the schema.
 ```
 ALTER TABLE table_name
     DROP COLUMN column_name;
 ```
-### MODIFY
+</details>
+
+<details>
+<summary>MODIFY</summary>
+    
 Modify an existing column schema.
 ```
 ALTER TABLE table_name
@@ -251,7 +274,11 @@ ALTER TABLE table_name
     [ FIRST | AFTER column_name],
     ...;
 ```
-### RENAME
+</details>
+
+<details>
+<summary>RENAME</summary>
+    
 Rename an existing column.
 ```
 ALTER TABLE table_name
