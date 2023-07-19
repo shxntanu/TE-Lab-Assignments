@@ -198,7 +198,7 @@ MariaDB [31380_db]> SELECT * from student;
 DROP TABLE student;
 ```
 ---
-### UPDATE
+### Update an entry (UPDATE)
 `UPDATE {table name} 
 SET column1 = value1, column2 = value2, ... 
 WHERE {condition};`
@@ -206,5 +206,15 @@ WHERE {condition};`
 UPDATE Customers
 SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
 WHERE CustomerID = 1;
+```
+---
+### Update the Schema (ALTER)
+```
+ALTER TABLE table_name
+    ADD new_column_name column_definition
+    [FIRST | AFTER column_name],
+    ADD new_column_name column_definition
+    [FIRST | AFTER column_name],
+    ...;
 ```
 </details>
