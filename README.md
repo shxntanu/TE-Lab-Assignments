@@ -2,7 +2,7 @@
 
 <details>
 
-<summary>Getting started with MySQL and basic commands.</summary>
+<summary>Getting started with <em>MySQL and basic commands.</em></summary>
 
 ## Getting Started
 To start MySQL / MariaDB in terminal, enter:
