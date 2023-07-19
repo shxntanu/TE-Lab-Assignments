@@ -17,7 +17,7 @@ Then enter the password.
 
 <summary>Table Creation Commands</summary>
 
-## Useful Commands
+## Table Creation Commands
 ### USE
 `USE {db name}` : Uses the specified database.
 ```
@@ -64,9 +64,9 @@ Output:
 </details>
 
 <details>
-    
-    <summary>Table Updation Commands</summary>
-    
+<summary>Table Updation Commands</summary>
+
+## Table Updation Commands
 ### INSERT
 `INSERT INTO {table} VALUES {records};`
 ```
