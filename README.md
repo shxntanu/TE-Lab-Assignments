@@ -15,7 +15,7 @@ Then enter the password.
 
 <details>
 
-<summary>Useful Commands</summary>
+<summary>Table Creation Commands</summary>
 
 ## Useful Commands
 ### USE
@@ -61,7 +61,10 @@ Output:
 +-------+--------------+------+-----+---------+-------+
 3 rows in set (0.002 sec)
 ```
----
+</details>
+
+<details>
+    <summary>Table Updation Commands</summary>
 ### INSERT
 `INSERT INTO {table} VALUES {records};`
 ```
@@ -208,7 +211,9 @@ SET ContactName = 'Alfred Schmidt', City = 'Frankfurt'
 WHERE CustomerID = 1;
 ```
 ---
-### Update the Schema (ALTER)
+## Updating the Schema (ALTER)
+### ADD
+Add a new column to the DB.
 ```
 ALTER TABLE table_name
     ADD new_column_name column_definition
@@ -216,5 +221,29 @@ ALTER TABLE table_name
     ADD new_column_name column_definition
     [FIRST | AFTER column_name],
     ...;
+```
+### 
+### DROP
+Delete a column from the schema.
+```
+ALTER TABLE table_name
+    DROP COLUMN column_name;
+```
+### MODIFY
+Modify an existing column schema.
+```
+ALTER TABLE table_name
+    MODIFY column_name column_definition
+    [ FIRST | AFTER column_name],
+    MODIFY column_name column_definition
+    [ FIRST | AFTER column_name],
+    ...;
+```
+### RENAME
+Rename an existing column.
+```
+ALTER TABLE table_name
+    CHANGE COLUMN original_name new_name column_definition
+    [FIRST | AFTER column_name];
 ```
 </details>
