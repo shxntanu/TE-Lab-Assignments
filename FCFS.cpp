@@ -40,8 +40,8 @@ int main() {
         }
     }
 
-    for(int i=0;i<n;i++)
-        cout<<"{"<<proc[i].id<<", "<<proc[i].burst<<", "<<proc[i].arrival<<"}"<<endl;
+    // for(int i=0;i<n;i++)
+    //     cout<<"{"<<proc[i].id<<", "<<proc[i].burst<<", "<<proc[i].arrival<<"}"<<endl;
 
     waitingTime(proc, n, wt, ct, tat);
 
