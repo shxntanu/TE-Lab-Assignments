@@ -1,9 +1,18 @@
+/*
+Author: Shantanu Wable
+
+Assignment 2: SQL Queries
+
+a. Design and Develop SQLDDL statements which demonstrate the use of SQL objects such as Table, View, Index, Sequence, Synonym, different constraints etc. 
+b. Write at least 10 SQL queries on the suitable database application using SQL DML statements.
+*/
+
 USE 31380_db;
 
 DROP TABLE dept;
 DROP TABLE project;
 DROP TABLE employee;
-
+DROP VIEW BasicDeets;
 
 CREATE TABLE dept (
 	dept_id INT,
