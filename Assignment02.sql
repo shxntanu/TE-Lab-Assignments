@@ -1,5 +1,10 @@
 USE 31380_db;
 
+DROP TABLE dept;
+DROP TABLE project;
+DROP TABLE employee;
+
+
 CREATE TABLE dept (
 	dept_id INT,
 	dept_name VARCHAR(50),
@@ -15,7 +20,7 @@ CREATE TABLE project (
 	proj_cost INT,
 	proj_year INT,
 	PRIMARY KEY (proj_id),
-	FOREIGN KEY (dept_id) REFERENCES dept(dept_id)
+	FOREIGN KEY (dept_id) REFERENCES dept(dept_id) ON DELETE CASCADE
 );
 
 CREATE TABLE employee ( 
@@ -26,9 +31,19 @@ CREATE TABLE employee (
 	emp_position VARCHAR(20),
 	emp_salary INT,
 	emp_jdate DATE,
-	PRIMARY KEY (emp_id),
-	FOREIGN KEY (dept_id) REFERENCES dept(dept_id)
+	PRIMARY KEY (emp_id)
 );
+
+DESCRIBE employee;
+
+ALTER TABLE employee 
+	ADD CONSTRAINT `emfk_1` 	
+	FOREIGN KEY (dept_id) 
+	REFERENCES dept(dept_id) 
+	ON DELETE CASCADE
+;
+
+DESCRIBE employee;
 
 INSERT INTO dept VALUES
 	(1, "Computer", "Pune"),
@@ -87,8 +102,6 @@ INSERT INTO project VALUES
  SELECT * from project;
 */
 
-CREATE VIEW [Basic Employee Details] AS
+CREATE VIEW BasicDeets AS
 SELECT emp_id, emp_jdate, emp_position
 FROM employee;
-
-SELECT * from [Basic Employee Details];
