@@ -13,7 +13,7 @@ public:
     int arrival;
 };
 
-void waitingTime (Process processes[], int n, int wt[], int ct[], int tat[]) {
+void npSJF (Process processes[], int n, int wt[], int ct[], int tat[]) {
     int currentTime = 0, completedTasks = 0, shortestTask = 0, minBurst = INT_MAX;
     int remainingTime[n];
     for(int i=0;i<n;i++)
@@ -50,7 +50,7 @@ int main() {
     int n = sizeof(proc) / sizeof(proc[0]);
     int wt[n], ct[n], tat[n];
 
-    waitingTime(proc, n, wt, ct, tat);
+    npSJF(proc, n, wt, ct, tat);
 
     cout.width(5);
     cout<<"ID";
