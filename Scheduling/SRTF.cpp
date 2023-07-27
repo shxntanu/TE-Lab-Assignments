@@ -5,8 +5,7 @@ Author: Shantanu Wable
 #include <bits/stdc++.h>
 using namespace std;
 
-class Process
-{
+class Process {
 public:
     int id;
     int burst;
