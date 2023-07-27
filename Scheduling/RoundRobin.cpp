@@ -12,7 +12,7 @@ public:
     int arrival;
 };
 
-void waitingTime(Process processes[], int n, int ts, int wt[], int ct[], int tat[])
+void RoundRobin(Process processes[], int n, int ts, int wt[], int ct[], int tat[])
 {
     queue<int> RQ;                                 // Create a Ready Queue to hold process indices
     int currentTime = 0, completedTasks = 0;       // Initialize the current time and number of completed tasks
@@ -84,8 +84,8 @@ int main() {
     for(int i=0;i<n;i++)
         wt[i] = 0;
 
-    // Call the waitingTime function to calculate waiting time, completion time, and turnaround time for each process
-    waitingTime(proc, n, 3, wt, ct, tat);
+    // Call the RoundRobin function to calculate waiting time, completion time, and turnaround time for each process
+    RoundRobin(proc, n, 3, wt, ct, tat);
 
     // Print the table header
     cout.width(5);
