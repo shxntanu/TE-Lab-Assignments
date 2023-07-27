@@ -20,7 +20,7 @@ void npPriority(Process processes[], int n, int wt[], int ct[], int tat[])
     for (int i = 0; i < n; i++)
         remainingTime[i] = processes[i].burst;
 
-    int currentTime = 0, completedTasks = 0, HPT = 0, remBurst = 0, maxPriority = INT_MAX, completionTime = 0;
+    int currentTime = 0, completedTasks = 0, HPT = 0, maxPriority = INT_MAX;
     bool taskActive = false;
 
     while(completedTasks != n) {
