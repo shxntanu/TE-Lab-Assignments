@@ -12,7 +12,7 @@ public:
     int arrival;
 };
 
-void SRTF(Process processes[], int n, int wt[], ct[], tat[])
+void SRTF(Process processes[], int n, int wt[], int ct[], int tat[])
 {
     int remainingTime[n];
 
@@ -51,7 +51,7 @@ void SRTF(Process processes[], int n, int wt[], ct[], tat[])
             taskActive = false;
             ct[shortestTask] = currentTime + 1;
             wt[shortestTask] = ct[shortestTask] - processes[shortestTask].arrival - processes[shortestTask].burst;
-            tat = ct[shortestTask] - processes[shortestTask].arrival;
+            tat[shortestTask] = ct[shortestTask] - processes[shortestTask].arrival;
             if(wt[shortestTask] < 0)
                 wt[shortestTask] = 0;
         }
@@ -65,7 +65,7 @@ int main () {
     int n = sizeof(proc) / sizeof(proc[0]);
     int wt[n], ct[n], tat[n];
     
-    STRF(proc, n, wt, ct, tat);
+    SRTF(proc, n, wt, ct, tat);
 
     cout.width(5);
     cout<<"ID";
