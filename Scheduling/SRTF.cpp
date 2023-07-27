@@ -13,14 +13,14 @@ public:
     int arrival;
 };
 
-void waitingTime(Process processes[], int n, int wt[])
+void SRTF(Process processes[], int n, int wt[], ct[], tat[])
 {
     int remainingTime[n];
 
     for (int i = 0; i < n; i++)
         remainingTime[i] = processes[i].burst;
 
-    int currentTime = 0, completedTasks = 0, shortestTask = 0, minBurst = INT_MAX, finishTime = 0;
+    int currentTime = 0, completedTasks = 0, shortestTask = 0, minBurst = INT_MAX;
     bool taskActive = false;
 
     while (completedTasks != n)
@@ -49,9 +49,10 @@ void waitingTime(Process processes[], int n, int wt[])
         if (remainingTime[shortestTask] == 0)
         {
             completedTasks++;
-            finishTime = currentTime + 1;
             taskActive = false;
-            wt[shortestTask] = finishTime - processes[shortestTask].arrival - processes[shortestTask].burst;
+            ct[shortestTask] = currentTime + 1;
+            wt[shortestTask] = ct[shortestTask] - processes[shortestTask].arrival - processes[shortestTask].burst;
+            tat = ct[shortestTask] - processes[shortestTask].arrival;
             if(wt[shortestTask] < 0)
                 wt[shortestTask] = 0;
         }
@@ -61,10 +62,39 @@ void waitingTime(Process processes[], int n, int wt[])
 }
 
 int main () {
-    Process proc[] = { {1, 6, 2 }, {2, 2, 5}, {3, 8, 1 }, {4, 3, 0}, {5, 4, 4} };
+    Process proc[] = { {1, 6, 2}, {2, 2, 5}, {3, 8, 1 }, {4, 3, 0}, {5, 4, 4} };
     int n = sizeof(proc) / sizeof(proc[0]);
-    int wt[n];
-    waitingTime(proc, n, wt);
-    for(int i=0;i<n;i++)
-      cout<<wt[i]<<endl;
+    int wt[n], ct[n], tat[n];
+    
+    STRF(proc, n, wt, ct, tat);
+
+    cout.width(5);
+    cout<<"ID";
+    cout.width(5);
+    cout<<"AT";
+    cout.width(5);
+    cout<<"BT";
+    cout.width(5);
+    cout<<"CT";
+    cout.width(5);
+    cout<<"TAT";
+    cout.width(5);
+    cout<<"WT"<<endl;
+
+    for(int i=0;i<n;i++) {
+        cout.width(5);
+        cout<<proc[i].id;
+        cout.width(5);
+        cout<<proc[i].arrival;
+        cout.width(5);
+        cout<<proc[i].burst;
+        cout.width(5);
+        cout<<ct[i];
+        cout.width(5);
+        cout<<tat[i]; 
+        cout.width(5);
+        cout<<wt[i]<<endl;
+    }     
+    
+    return 0;
 }
