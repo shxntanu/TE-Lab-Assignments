@@ -12,8 +12,7 @@ public:
     int arrival;
 };
 
-void SRTF(Process processes[], int n, int wt[], int ct[], int tat[])
-{
+void SRTF(Process processes[], int n, int wt[], int ct[], int tat[]) {
     int remainingTime[n];
 
     for (int i = 0; i < n; i++)
