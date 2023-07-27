@@ -1,6 +1,5 @@
 /*
 Author: Shantanu Wable
-Not complete, to be worked upon.
 */
 
 #include <bits/stdc++.h>
@@ -35,7 +34,7 @@ void waitingTime( Process processes[], int n, int ts, int wt[], int ct[], int ta
         RQ.pop();
 
         int cntr =0;
-        while(cntr != ts || cntr != remainingTime[curr]) {
+        while(cntr != ts && cntr != remainingTime[curr]) {
             currentTime++;
             cntr++;
             for(int j=0;j<n;j++) {
@@ -62,22 +61,11 @@ void waitingTime( Process processes[], int n, int ts, int wt[], int ct[], int ta
 }
 
 int main() {
-    Process proc[] = { {1, 6, 2 }, {2, 2, 5}, {3, 8, 1 }, {4, 3, 0}, {5, 4, 4} };
+    Process proc[] = { {1, 8, 0 }, {2, 2, 5}, {3, 7, 1 }, {4, 3, 6}, {5, 5, 8} };
     int n = sizeof(proc) / sizeof(proc[0]);
     int wt[n], ct[n], tat[n];
     for(int i=0;i<n;i++)
         wt[i] = 0;
-
-    // // Bubble Sort
-    // for(int i=0;i<n-1;i++) {
-    //     for(int j=0;j<n-i-1;j++) {
-    //         if(proc[j].arrival > proc[j+1].arrival) {
-    //             Process temp = proc[j];
-    //             proc[j] = proc[j+1];
-    //             proc[j+1] = temp;
-    //         }
-    //     }
-    // }
 
     waitingTime(proc, n, 3, wt, ct, tat);
 
