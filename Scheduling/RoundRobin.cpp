@@ -51,14 +51,6 @@ void RoundRobin(Process processes[], int n, int ts, int wt[], int ct[], int tat[
                 if (processes[j].arrival == currentTime)
                     RQ.push(j);
             }
-
-            // Calculate and update the waiting time for processes currently in the Ready Queue
-            queue<int> TQ = RQ;
-            while (!TQ.empty()) {
-                int t = TQ.front();
-                TQ.pop();
-                wt[t]++;
-            }
         }
 
         remainingTime[curr] -= cntr; // Reduce the remaining burst time of the current process by the time quantum spent on it
@@ -68,6 +60,7 @@ void RoundRobin(Process processes[], int n, int ts, int wt[], int ct[], int tat[
             ct[curr] = currentTime; // Set the completion time of the current process
             tat[curr] = ct[curr] - processes[curr].arrival; // Calculate the turnaround time for the current process
             completedTasks++; // Increment the number of completed tasks
+            wt[curr] = ct[curr] - processes[curr].arrival - processes[curr].burst;
         }
             
         else {
