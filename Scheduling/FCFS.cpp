@@ -5,15 +5,14 @@ Author: Shantanu Wable
 #include <bits/stdc++.h>
 using namespace std;
 
-class Process
-{
+class Process {
 public:
     int id;
     int burst;
     int arrival;
 };
 
-void waitingTime (Process processes[], int n, int wt[], int ct[], int tat[]) {
+void FCFS (Process processes[], int n, int wt[], int ct[], int tat[]) {
     int wait = 0;
     for(int i=0;i<n;i++) {
         wt[i] = wait - processes[i].arrival;
@@ -43,7 +42,7 @@ int main() {
     // for(int i=0;i<n;i++)
     //     cout<<"{"<<proc[i].id<<", "<<proc[i].burst<<", "<<proc[i].arrival<<"}"<<endl;
 
-    waitingTime(proc, n, wt, ct, tat);
+    FCFS(proc, n, wt, ct, tat);
 
     cout.width(5);
     cout<<"ID";
@@ -72,5 +71,6 @@ int main() {
         cout.width(5);
         cout<<wt[i]<<endl;
     }     
+    
     return 0;
 }
