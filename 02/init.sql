@@ -28,7 +28,7 @@ CREATE TABLE project (
 	proj_location VARCHAR(50),
 	proj_cost INT,
 	proj_year INT,
-	PRIMARY KEY (proj_id),
+	PRIMARY KEY (proj_id)
 );
 
 ALTER TABLE project 
