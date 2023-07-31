@@ -35,19 +35,19 @@ INSERT INTO employee VALUES
 ;
 
 INSERT INTO project VALUES 
-	(19425,3,'a','Sydniborough',4781828,1988),
-	(46820,2,'ea','North Oralchester',8720384,2000),
+	(19425,3,'a','Pune',4781828,1988),
+	(46820,2,'ea','North Oralchester',8720384,2007),
 	(20534,2,'tenetur','Faheytown',2499445,2001),
 	(18716,1,'veritatis','Morarhaven',5600366,1974),
 	(27422,3,'reiciendis','West Amber',6150142,2012),
-	(18617,2,'dolores','New Leannastad',7298848,2017),
+	(18617,2,'dolores','New Leannastad',7298848,2004),
 	(41545,1,'quia','Starkmouth',2614732,1985),
 	(13874,3,'est','Maraview',7153335,2002),
 	(31164,1,'rerum','Lake Darylbury',2075820,1982),
 	(18597,1,'ullam','Garrickberg',5537116,1971),
-	(43491,3,'aspernatur','Hermistonstad',1819411,2021),
+	(43491,3,'aspernatur','Hermistonstad',1819411,2004),
 	(31940,2,'suscipit','North Robynfurt',4336490,2022),
 	(35719,1,'alias','North Nikitaberg',6851360,1978),
 	(23950,2,'quis','Lake Jammie',1905239,1996),
-	(25632,3,'sint','West Rodolfoport',7924719,1979)
+	(25632,3,'sint','West Rodolfoport',7924719,2005)
 ;
