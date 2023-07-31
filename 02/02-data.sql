@@ -1,3 +1,7 @@
+/*
+Starter Dummy Data to fill up the tables
+*/
+
 USE 31380_db;
 
 INSERT INTO dept VALUES
