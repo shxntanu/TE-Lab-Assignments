@@ -46,10 +46,8 @@ SELECT proj_name FROM project WHERE proj_loc = 'Pune';
 
 SELECT * FROM project WHERE proj_cost BETWEEN 1000000 AND 5000000;
 
-SELECT proj_name, MAX(proj_cost) AS "Maximum Cost"
+SELECT proj_name, MAX(proj_cost) AS "Maximum Cost", AVG(proj_cost) AS "Average Project Cost"
 FROM project;
-
-SELECT AVG(proj_cost) AS "Average Project Cost" FROM project;
 
 SELECT emp_id, emp_fname, emp_lname 
 FROM employee 
