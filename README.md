@@ -9,5 +9,4 @@
 
 ## Semester 5
 1. [Database Management Systems Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/DBMSL)
-2. [Computer Networks and Security Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/CNSL)
-3. [Laboratory Practice 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/LP1)
+2. [Laboratory Practice 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/LP1)
