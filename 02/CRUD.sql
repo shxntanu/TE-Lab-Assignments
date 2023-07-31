@@ -39,3 +39,22 @@ SELECT emp_position FROM employee GROUP BY emp_position HAVING COUNT(emp_positio
 UPDATE employee
 SET emp_salary = emp_salary*1.1
 WHERE emp_jdate < '1985-01-01';
+
+DELETE FROM dept WHERE dept_loc = 'Mumbai';
+
+SELECT proj_name FROM project WHERE proj_loc = 'Pune';
+
+SELECT * FROM project WHERE proj_cost BETWEEN 1000000 AND 5000000;
+
+SELECT proj_name, MAX(proj_cost) AS "Maximum Cost"
+FROM project;
+
+SELECT AVG(proj_cost) AS "Average Project Cost" FROM project;
+
+SELECT emp_id, emp_fname, emp_lname 
+FROM employee 
+ORDER BY emp_lname DESC;
+
+SELECT proj_name AS "Name", proj_location AS "Location", proj_cost AS "Cost" 
+FROM project
+WHERE proj_year = 2004 OR proj_year = 2005 OR proj_year = 2007;
