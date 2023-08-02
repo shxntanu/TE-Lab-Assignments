@@ -42,7 +42,7 @@ WHERE emp_jdate < '1985-01-01';
 
 DELETE FROM dept WHERE dept_loc = 'Mumbai';
 
-SELECT proj_name FROM project WHERE proj_loc = 'Pune';
+SELECT proj_name FROM project WHERE proj_location = 'Pune';
 
 SELECT * FROM project WHERE proj_cost BETWEEN 1000000 AND 5000000;
 
