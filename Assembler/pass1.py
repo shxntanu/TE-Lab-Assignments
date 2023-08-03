@@ -1,8 +1,9 @@
-# TO BE COMPLETED
-
 import re as regex
 import sys
 import json
+import os
+
+os.system('cls' if os.name == 'nt' else 'clear')
 
 mnemonics = json.load(open('assembler/mnemonics.json'))
 msize = json.load(open('assembler/mnemonic-size.json'))
@@ -27,6 +28,7 @@ current = 0
 previous = 0
 relativeAddresses = []
 machineCode = []
+stCnt = 1
 
 symbolTable = {}
 literalTable = {}
@@ -38,7 +40,7 @@ for line in file:
     cmd = list(map(lambda x: x.lower(), cmd))
 
     if cmd[0] == 'start':
-        current = cmd[1]
+        current = int(cmd[1])
         continue
 
     if len(cmd) == 4:
@@ -48,17 +50,24 @@ for line in file:
         op2 = cmd[3]
 
     else:
-        try:
-            label = cmd[0] if (cmd[0]in mnemonics) else None
-            instruction = cmd[1] if label else cmd[0]
-            op1 = cmd[2] if (instruction == cmd[1]) else cmd[1]
-            op2 = None if (op1 == cmd[2]) else cmd[2]
-        except:
-            op2 = None
+        cmdIndex = None
+        for command in cmd:
+            if command in mnemonics:
+                cmdIndex = cmd.index(command)
+                break
+        
+        instruction = cmd[cmdIndex]
+        if cmdIndex == 0:
+            op1 = cmd[1]
+            op2 = cmd[2]
+        
+        else:
+            op1 = cmd[cmdIndex - 1]
+            op2 = cmd[cmdIndex + 1]
 
     if instruction in mnemonics:
         opcode = mnemonics.get(instruction)
-        size = msize.get(instruction)
+        size = int(msize.get(instruction))
 
         previous = current
         current += size
@@ -70,30 +79,41 @@ for line in file:
             if label in symbolTable:
                 pass
             else:
-                symbolTable[label] = previous
+                symbolTable[label] = [stCnt, label, previous]
+                stCnt += 1
 
         if op1 in registers:
             op1code = registers.get(op1)
 
         else:
             if op1 in symbolTable:
-                op1code = symbolTable.get(op1)
+                op1code = symbolTable.get(op1)[0]
             else:
-                symbolTable[op1] = previous
+                symbolTable[op1] = [stCnt, op1, previous]
+                op1code = stCnt
+                stCnt += 1
 
         if op2 in registers:
             op2code = registers.get(op2)
 
         else:
             if op2 in symbolTable:
-                op2code = symbolTable.get(op2)
+                op2code = symbolTable.get(op2)[0]
             else:
-                symbolTable[op2] = previous
+                symbolTable[op2] = [stCnt, op2, previous]
+                op2code = stCnt
+                stCnt += 1
 
+        # print({
+        #     "Instruction" : instruction,
+        #     "Instruction Code" : opcode,
+        #     "Operand 1" : op1,
+        #     "Operand 1 Code" : op1code,
+        #     "Operand 2" : op2,
+        #     "Operand 2 Code" : op2code,
+        # })
         print(instruction, opcode, op1code, op2code)
 
     else:
         print("Instruction not defined. Exiting the program...")
         exit(0)
-
-    
