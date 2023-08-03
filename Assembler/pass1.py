@@ -12,6 +12,8 @@ msize = json.load(open('assembler/mnemonic-size.json'))
 # file = open(filename, "r")
 
 file = open('assembler/test.asm', 'r')
+icFile = open('assembler/ic.txt', 'a')
+symbols = 'assembler/symbols.json'
 
 pattern = r'\b\w+\b'
 
@@ -23,11 +25,10 @@ registers = {
 }
 
 label = instruction = op1 = op2 = op1code = op2code = ""
-RA = 0
 current = 0
 previous = 0
 relativeAddresses = []
-machineCode = []
+IC = []
 stCnt = 1
 
 symbolTable = {}
@@ -72,8 +73,7 @@ for line in file:
         previous = current
         current += size
 
-        relativeAddresses.append(RA)
-        machineCode.append(instruction)
+        relativeAddresses.append(previous)
 
         if label:
             if label in symbolTable:
@@ -112,8 +112,14 @@ for line in file:
         #     "Operand 2" : op2,
         #     "Operand 2 Code" : op2code,
         # })
-        print(instruction, opcode, op1code, op2code)
+        
+        IC.append((opcode, op1code, op2code))
+        print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
+        icFile.write(str((opcode, op1code, op2code))+ "\n")
 
     else:
         print("Instruction not defined. Exiting the program...")
         exit(0)
+
+with open(symbols, 'w') as json_file:
+    json.dump(symbolTable, json_file, indent=4)
