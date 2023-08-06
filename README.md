@@ -6,7 +6,6 @@
 ![Static Badge](https://img.shields.io/badge/Language-MySQL-green)
 ![Static Badge](https://img.shields.io/badge/Database-MariaDB-green)
 
-
 ## Semester 5
 1. [Database Management Systems Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/DBMSL)
 2. [Computer Networks & Security Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/CNSL)
