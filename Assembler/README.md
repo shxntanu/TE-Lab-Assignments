@@ -1,6 +1,8 @@
 # Pass 1 Assembler
 
-`pass1.py` : Assembler code
+`pass1.py` : Assembler code in Python
+
+`pass1.cpp` : Assembler code in C++ using STL
 
 `ic.txt` : Intermediate Code file
 
