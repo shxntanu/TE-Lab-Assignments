@@ -15,8 +15,10 @@ void clearScreen() {
 }
 
 int main() {
+
     clearScreen();
 
+    // Mnemonic Table
     map<string, int> mnemonics = {
         {"stop", 1},
         {"add", 2},
@@ -37,12 +39,15 @@ int main() {
         {"dc", 17},
         {"ds", 18}
     };
-
+    
     ifstream file("test.asm");
     ofstream icFile("ic.txt", ios_base::app);
     string symbolsFile = "symbols.json";
-    regex pattern(R"(\b\w+\b)");
 
+    // Regex pattern denotes Alphanumeric Characters between word boundary
+    regex pattern(R"(\b\w+\b)"); 
+
+    // Register Map
     map<string, int> registers = {
         {"areg", 1},
         {"breg", 2},
@@ -62,16 +67,19 @@ int main() {
     while (getline(file, line)) {
         smatch cmdMatch;
         vector<string> cmd;
-
+        
+        // Tokenize the line
         while (regex_search(line, cmdMatch, pattern)) {
             cmd.push_back(cmdMatch.str());
             line = cmdMatch.suffix();
         }
 
+        // Converting the tokens into lowercase
         for (string& token : cmd) {
             transform(token.begin(), token.end(), token.begin(), ::tolower);
         }
 
+        // Start the line counting at the start address
         if (cmd[0] == "start") {
             current = stoi(cmd[1]);
             continue;
@@ -82,7 +90,9 @@ int main() {
             instruction = cmd[1];
             op1 = cmd[2];
             op2 = cmd[3];
-        } else {
+        } 
+        
+        else {
             int cmdIndex = -1;
             for (size_t i = 0; i < cmd.size(); ++i) {
                 if (mnemonics.find(cmd[i]) != mnemonics.end()) {
@@ -101,6 +111,7 @@ int main() {
             }
         }
 
+        // If instruction exists in the Mnemonics table
         if (mnemonics.find(instruction) != mnemonics.end()) {
             int opcode = mnemonics[instruction];
             int size = 0;
