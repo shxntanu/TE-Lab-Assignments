@@ -68,7 +68,7 @@ int main() {
             line = cmdMatch.suffix();
         }
 
-        transform(cmd[0].begin(), cmd[0].end(), cmd[0].begin(), ::tolower);
+        transform(cmd.begin(), cmd.end(), cmd.begin(), [](string& s) { for (char& c : s) c = tolower(c); });
 
         if (cmd[0] == "start") {
             current = stoi(cmd[1]);
@@ -101,7 +101,7 @@ int main() {
 
         if (mnemonics.find(instruction) != mnemonics.end()) {
             int opcode = mnemonics[instruction];
-            int size = 0; // You need to define 'msize' map or logic for size calculation
+            int size = 0;
 
             previous = current;
             current += size;
