@@ -68,7 +68,10 @@ int main() {
             line = cmdMatch.suffix();
         }
 
-        transform(cmd.begin(), cmd.end(), cmd.begin(), [](string& s) { for (char& c : s) c = tolower(c); });
+        for (string& token : cmd) {
+            transform(token.begin(), token.end(), token.begin(), ::tolower);
+        }
+
 
         if (cmd[0] == "start") {
             current = stoi(cmd[1]);
