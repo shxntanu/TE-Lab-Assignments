@@ -38,9 +38,9 @@ int main() {
         {"ds", 18}
     };
 
-    ifstream file("assembler/test.asm");
-    ofstream icFile("assembler/ic.txt", ios_base::app);
-    string symbolsFile = "assembler/symbols.json";
+    ifstream file("test.asm");
+    ofstream icFile("ic.txt", ios_base::app);
+    string symbolsFile = "symbols.json";
     regex pattern(R"(\b\w+\b)");
 
     map<string, int> registers = {
@@ -71,7 +71,6 @@ int main() {
         for (string& token : cmd) {
             transform(token.begin(), token.end(), token.begin(), ::tolower);
         }
-
 
         if (cmd[0] == "start") {
             current = stoi(cmd[1]);
@@ -156,12 +155,15 @@ int main() {
     }
 
     ofstream symbolsJson(symbolsFile);
+    symbolsJson << "{" << endl;
     for (const auto& entry : symbolTable) {
-        symbolsJson << entry.first << ": {"
-                    << "index: " << get<0>(entry.second) << ", "
-                    << "label: " << get<1>(entry.second) << ", "
-                    << "address: " << get<2>(entry.second) << "}" << endl;
+        symbolsJson << "\"" << entry.first << "\" : {"
+                    << "\"index\": \"" << get<0>(entry.second) << "\", "
+                    << "\"label\": \"" << get<1>(entry.second) << "\", "
+                    << "\"address\": \"" << get<2>(entry.second) << "\"}," << endl;
     }
+    symbolsJson.seekp(-2, symbolsJson.cur);
+    symbolsJson << "}" << endl;
 
     return 0;
 }
