@@ -87,3 +87,24 @@ WHERE
 	pr.proj_cost > 30000
 ;
 	
+
+-- List the Dept_name having no_of_emp =  10
+
+SELECT 
+	edj1.dept_name
+FROM (
+	SELECT
+		COUNT(EDJ.emp_id) AS "CNT", EDJ.dept_name
+	FROM (
+		SELECT 
+			dept.dept_id,
+			dept.dept_name,
+			employee.emp_id
+		FROM dept
+		LEFT JOIN employee
+		ON 
+			dept.dept_id = employee.dept_id
+		) as EDJ
+	GROUP BY EDJ.dept_id
+	) AS edj1
+WHERE CNT = 10;
