@@ -38,19 +38,28 @@ RIGHT JOIN project as pr
     ON (pr.proj_location != "Hyderabad") AND (emp.dept_id = pr.dept_id)
 GROUP BY emp.emp_id;
 
-
 SELECT
-	dep.dept_name AS "Dept. Name",
-	emp.emp_fname AS "Employee Name",
-	emp.emp_position AS "Position"
-FROM employee AS emp,
-dept AS dep,
-project AS pr
+	edj.dept_name AS "Dept. Name",
+	edj.emp_fname AS "Employee Name",
+	edj.emp_position AS "Position"
+FROM (
+	SELECT 
+		employee.dept_id,
+		employee.emp_fname,
+		employee.emp_position,
+		dept.dept_name
+	FROM employee
+	LEFT JOIN dept
+	ON 
+		employee.dept_id = dept.dept_id
+) AS edj
+RIGHT JOIN project AS pr
+ON 
+	edj.dept_id = pr.dept_id
 WHERE
-	((dep.dept_id = emp.dept_id) AND
-	(dep.dept_id = pr.dept_id)) AND
 	pr.proj_year = 2020
 ; 
+
 
 SELECT 
 	edj.emp_position AS "Position",
