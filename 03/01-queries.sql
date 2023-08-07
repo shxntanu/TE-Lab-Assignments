@@ -43,8 +43,8 @@ SELECT
 	dep.dept_name AS "Dept. Name",
 	emp.emp_fname AS "Employee Name",
 	emp.emp_position AS "Position"
-FROM employee AS emp
-LEFT JOIN dept AS dep
+FROM employee AS emp,
+dept AS dep,
 project AS pr
 WHERE
 	((dep.dept_id = emp.dept_id) AND
