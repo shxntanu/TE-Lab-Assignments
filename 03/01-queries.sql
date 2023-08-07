@@ -1,6 +1,7 @@
 USE 31380_db;
 
--- Natural Join
+-- Find Employee details and Department details using NATURAL JOIN.
+
 SELECT emp.emp_id AS "Employee ID",
 	emp.emp_fname AS "Name",
 	emp.emp_lname AS "Surname",
@@ -13,7 +14,9 @@ FROM employee AS emp
 NATURAL JOIN dept AS dep
 ;
 
--- Left Outer Join
+
+-- Find the emp_fname,Emp_position,location, Emp_JoinDate who have same Dept id.
+
 SELECT emp.emp_fname AS "Name",
 	emp.emp_position AS "Position",
 	dep.dept_loc AS "Location",
@@ -24,7 +27,9 @@ LEFT JOIN dept as dep
 ON emp.dept_id = dep.dept_id
 ;
 
--- Right Outer Join
+
+-- Find the Employee details ,Proj_id,Project cost who does not have Project location as ‘Hyderabad’.
+
 SELECT
     emp.emp_id AS "Employee ID",
     emp.emp_fname AS "Name",
@@ -37,6 +42,9 @@ FROM employee AS emp
 RIGHT JOIN project as pr
     ON (pr.proj_location != "Hyderabad") AND (emp.dept_id = pr.dept_id)
 GROUP BY emp.emp_id;
+
+
+-- Find Department Name ,employee name, Emp_position for which project year is 2020
 
 SELECT
 	edj.dept_name AS "Dept. Name",
@@ -60,6 +68,8 @@ WHERE
 	pr.proj_year = 2020
 ; 
 
+
+-- Display emp_position, dept_name who have Project cost >30000
 
 SELECT 
 	edj.emp_position AS "Position",
