@@ -12,13 +12,18 @@ os.system('cls' if os.name == 'nt' else 'clear')
 # filename = sys.argv[1]
 # file = open(filename, "r")
 
+# Clearing the intermediate code file
+with open("ic.txt",'w') as file:
+    pass
+file.close()
+
 file = open('test.asm', 'r')
 icFile = open('ic.txt', 'a')
 
 symbols = 'symbols.json'
 literals = 'literals.json'
 
-pattern = r'\b[a-zA-Z0-9\-="]+\b'
+pattern = r'[A-Za-z0-9=,"+-]+'
 
 mnemonics = {
     "stop" : "(IS, 00)",
@@ -134,9 +139,18 @@ for line in file:
     elif len(cmd) == 2:
 
         # Command is of the format: INSTRUCTION OP1
-
-        instruction = cmd[0]
-        op1 = cmd[1]
+        #                                   OR
+        #                           LABEL INSTRUCTION
+        cmdIndex = -1
+        for command in cmd:
+            if command in directives:    
+                cmdIndex = cmd.index(command)
+                break
+        instruction = cmd[cmdIndex]
+        if cmdIndex == 0:
+            op1 = cmd[1]
+        else:
+            label = cmd[0]
 
     else:
 
@@ -166,7 +180,15 @@ for line in file:
                 offset = op1.split('-')[1]
                 op1code = f"(S, {symbolTable.get(label)[0]})-{offset}"
                 previous = current
-                current = symbolTable.get(op1)[2] - int(offset)
+                current = symbolTable.get(label)[2] - int(offset)
+                relativeAddresses.append(previous)
+
+            if "+" in op1:
+                label = op1.split('+')[0]
+                offset = op1.split('+')[1]
+                op1code = f"(S, {symbolTable.get(label)[0]})+{offset}"
+                previous = current
+                current = symbolTable.get(label)[2] + int(offset)
                 relativeAddresses.append(previous)
 
             else:
@@ -177,7 +199,7 @@ for line in file:
             
         elif instruction == 'equ':
             pass
-        
+
         elif instruction == 'ltorg':
             pass
 
@@ -203,7 +225,7 @@ for line in file:
         elif "=" in op1:
             literal = op1.split('=')[1][1]
             if op1 in literalTable:
-                op1code = f"(L, {literalTable.get(literal)[0]})"
+                op1code = f"(L, {literalTable.get(op1)[0]})"
             else:
                 literalTable[op1] = [ltCnt, literal, -1]
                 op1code = f"(L, {ltCnt})"
@@ -223,10 +245,10 @@ for line in file:
         elif "=" in op2:
             literal = op2.split('=')[1][1]
             if op2 in literalTable:
-                op2code = f"(L, {literalTable.get(literal)[0]})"
+                op2code = f"(L, {literalTable.get(op2)[0]})"
             else:
                 literalTable[op2] = [ltCnt, literal, -1]
-                op1code = f"(L, {ltCnt})"
+                op2code = f"(L, {ltCnt})"
                 ltCnt += 1
 
         else:
@@ -247,11 +269,11 @@ for line in file:
         # })
 
         IC.append((opcode, op1code, op2code))
-        print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
+        # print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
         icFile.write(f"{opcode} {op1code} {op2code}\n")
 
     else:
-        print("Instruction not defined. Exiting the program...")
+        print(instruction, "Instruction not defined. Exiting the program...")
         exit(0)
 
 with open(symbols, 'w') as json_file:
