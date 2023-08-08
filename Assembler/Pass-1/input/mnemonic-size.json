@@ -1,0 +1,20 @@
+{
+    "stop" : 1,
+    "add" : 1,
+    "sub" : 1,
+    "mult" : 1,
+    "mover" : 1,
+    "movem" :1,
+    "comp" : 1,
+    "bc" : 1,
+    "div" : 1,
+    "read" : 1,
+    "print" : 1,
+    "start" : 1,
+    "end" : 1,
+    "origin" : 1,
+    "equ" : 1,
+    "ltorg" : 1,
+    "dc" : 1,
+    "ds" : 1
+}
