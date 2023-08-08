@@ -7,29 +7,33 @@ import os
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
+# Command line arguments
+
 # filename = sys.argv[1]
 # file = open(filename, "r")
 
-file = open('assembler/test.asm', 'r')
-icFile = open('assembler/ic.txt', 'a')
-symbols = 'assembler/symbols.json'
+file = open('test.asm', 'r')
+icFile = open('ic.txt', 'a')
 
-pattern = r'\b\w+\b'
+symbols = 'symbols.json'
+literals = 'literals.json'
+
+pattern = r'\b[a-zA-Z0-9\-="]+\b'
 
 mnemonics = {
-    "stop" : 1,
-    "add" : 2,
-    "sub" : 3,
-    "mult" : 4,
-    "mover" : 5,
-    "movem" :6,
-    "comp" : 7,
-    "bc" : 8,
-    "div" : 9,
-    "read" : 10,
-    "print" : 11,
-    "dc" : 12,
-    "ds" : 13
+    "stop" : "(IS, 00)",
+    "add" : "(IS, 01)",
+    "sub" : "(IS, 02)",
+    "mult" : "(IS, 03)",
+    "mover" : "(IS, 04)",
+    "movem" : "(IS, 05)",
+    "comp" : "(IS, 06)",
+    "bc" : "(IS, 07)",
+    "div" : "(IS, 08)",
+    "read" : "(IS, 09)",
+    "print" : "(IS, 10)",
+    "dc" : "(DL, 01)",
+    "ds" : "(DL, 02)",
 }
 
 msize = {
@@ -70,11 +74,11 @@ conditionCodes = {
 }
 
 directives = {
-    "start" : 12,
-    "end" : 13,
-    "origin" : 14,
-    "equ" : 15,
-    "ltorg" : 16
+    "start" : "(AD, 01)",
+    "end" : "(AD, 02)",
+    "origin" : "(AD, 03)",
+    "equ" : "(AD, 04)",
+    "ltorg" : "(AD, 05)",
 }
 
 label = instruction = op1 = op2 = op1code = op2code = ""
@@ -83,6 +87,7 @@ previous = 0
 relativeAddresses = []
 IC = []
 stCnt = 1
+ltCnt = 1
 
 symbolTable = {}
 literalTable = {}
@@ -140,7 +145,41 @@ for line in file:
         instruction = cmd[0]
 
     if instruction in directives:
+        if instruction == 'start':
+            current = int(cmd[1])
+            opcode = directives.get(instruction)
+            op1code = f"(C, {current})"
+            icFile.write(f"{opcode} {op1code}\n")
+            continue
 
+        elif instruction == 'end':
+            opcode = directives.get(instruction)
+            # size = int(msize.get(instruction))
+            icFile.write(str((opcode))+ "\n")
+            break
+
+        elif instruction == 'origin':
+            opcode = directives.get(instruction)
+            op1 = cmd[1]
+            if "-" in op1:
+                label = op1.split('-')[0]
+                offset = op1.split('-')[1]
+                op1code = f"(S, {symbolTable.get(label)[0]})-{offset}"
+                previous = current
+                current = symbolTable.get(op1)[2] - int(offset)
+                relativeAddresses.append(previous)
+
+            else:
+                op1code = f"(S, {symbolTable.get(op1)[0]})"
+                previous = current
+                current = symbolTable.get(op1)[2]
+                relativeAddresses.append(previous)
+            
+        elif instruction == 'equ':
+            pass
+        
+        elif instruction == 'ltorg':
+            pass
 
     elif instruction in mnemonics:
         opcode = mnemonics.get(instruction)
@@ -159,25 +198,43 @@ for line in file:
                 stCnt += 1
 
         if op1 in registers:
-            op1code = registers.get(op1)
+            op1code = f"({registers.get(op1)})"
+
+        elif "=" in op1:
+            literal = op1.split('=')[1][1]
+            if op1 in literalTable:
+                op1code = f"(L, {literalTable.get(literal)[0]})"
+            else:
+                literalTable[op1] = [ltCnt, literal, -1]
+                op1code = f"(L, {ltCnt})"
+                ltCnt += 1
 
         else:
             if op1 in symbolTable:
-                op1code = symbolTable.get(op1)[0]
+                op1code = f"(S, {symbolTable.get(op1)[0]})"
             else:
                 symbolTable[op1] = [stCnt, op1, previous]
-                op1code = stCnt
+                op1code = f"(S, {stCnt})"
                 stCnt += 1
 
         if op2 in registers:
-            op2code = registers.get(op2)
+            op2code =  f"({registers.get(op2)})"
+            
+        elif "=" in op2:
+            literal = op2.split('=')[1][1]
+            if op2 in literalTable:
+                op2code = f"(L, {literalTable.get(literal)[0]})"
+            else:
+                literalTable[op2] = [ltCnt, literal, -1]
+                op1code = f"(L, {ltCnt})"
+                ltCnt += 1
 
         else:
             if op2 in symbolTable:
-                op2code = symbolTable.get(op2)[0]
+                op2code = f"(S, {symbolTable.get(op2)[0]})"
             else:
                 symbolTable[op2] = [stCnt, op2, previous]
-                op2code = stCnt
+                op2code = f"(S, {stCnt})"
                 stCnt += 1
 
         # print({
@@ -191,7 +248,7 @@ for line in file:
 
         IC.append((opcode, op1code, op2code))
         print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
-        icFile.write(str((opcode, op1code, op2code))+ "\n")
+        icFile.write(f"{opcode} {op1code} {op2code}\n")
 
     else:
         print("Instruction not defined. Exiting the program...")
@@ -200,13 +257,5 @@ for line in file:
 with open(symbols, 'w') as json_file:
     json.dump(symbolTable, json_file, indent=4)
 
-# READ N
-    
-# PRINT RESULT
-# STOP
-# N DS 1
-# RESULT DS 1
-# ONE DC '1'
-# TERM DS 1
-# TWO DC '2'
-# END
+with open(literals, 'w') as json_file:
+    json.dump(literalTable, json_file, indent=4)
