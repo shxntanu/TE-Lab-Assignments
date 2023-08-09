@@ -86,7 +86,17 @@ ON
 WHERE 
 	pr.proj_cost > 30000
 ;
-	
+
+
+-- Find the names of all the Projects that started in the year 2015.
+
+SELECT 
+	pr.proj_name AS "Project Name"
+FROM
+	project AS pr
+WHERE 
+	pr.proj_year = 2015
+;
 
 -- List the Dept_name having no_of_emp =  10
 
@@ -108,3 +118,83 @@ FROM (
 	GROUP BY EDJ.dept_id
 	) AS edj1
 WHERE CNT = 10;
+
+
+-- Display the total number of employee who have joined any project before 2009
+-- (Used complex view)
+
+CREATE VIEW edv AS
+	SELECT d.dept_id, e.emp_fname, p.proj_name, p.proj_year
+	FROM employee AS e, dept AS d, project AS p
+	WHERE d.dept_id = e.dept_id = p.dept_id
+	ORDER BY dept_id
+;
+
+SELECT DISTINCT emp_fname 
+FROM edv 
+WHERE proj_year < 2009
+;
+
+-- Create a view showing employee and dept details
+
+CREATE VIEW ed_deets AS
+	SELECT 
+		e.dept_id,
+		e.emp_fname,
+		e.emp_lname,
+		e.emp_position,
+		e.emp_salary,
+		e.emp_jdate,
+		d.dept_name,
+		d.dept_loc
+	FROM
+		employee AS e,
+		dept AS d
+	WHERE
+		e.dept_id = d.dept_id
+	ORDER BY
+		dept_id
+;
+
+SELECT * FROM ed_deets;
+
+-- Perform manipulation on simple view - insert, update, delete, drop
+
+ALTER TABLE employee
+MODIFY emp_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+MODIFY dept_id INT DEFAULT 1,
+MODIFY emp_fname VARCHAR(20) DEFAULT NULL,
+MODIFY emp_lname VARCHAR(20) DEFAULT NULL,
+MODIFY emp_position VARCHAR(50) DEFAULT NULL,
+MODIFY emp_salary INT DEFAULT NULL,
+MODIFY emp_jdate DATE DEFAULT NULL
+;
+
+CREATE VIEW sv AS
+	SELECT
+		emp_fname,
+		emp_lname,
+		emp_position
+	FROM
+		employee
+	ORDER BY 
+		dept_id
+;
+
+SELECT * FROM sv;
+
+INSERT INTO
+	sv
+VALUES
+	("Shantanu", "Wable", "CTO"),
+	("Riya", "Wani", "CFO"),
+	("Atharva", "Zodpe", "GM")
+;
+
+DELETE FROM sv
+WHERE emp_fname = 'dolores';
+
+UPDATE sv
+SET emp_lname = 'UPDATE'
+WHERE emp_fname = 'vero'
+;
