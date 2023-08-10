@@ -7,85 +7,23 @@ import os
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-# Command line arguments
-
-# filename = sys.argv[1]
-# file = open(filename, "r")
-
-# Clearing the intermediate code file
-with open("ic.txt",'w') as file:
+# Creating the intermediate code file
+with open("output/ic.txt",'w') as file:
     pass
 file.close()
 
-file = open('test.asm', 'r')
-icFile = open('ic.txt', 'a')
+# Input Files
+mnemonics = json.load(open('input/mnemonics.json'))
+msize = json.load(open('input/mnemonic-size.json'))
+registers = json.load(open('input/registers.json'))
+conditionCodes = json.load(open('input/condition-codes.json'))
+directives = json.load(open('input/directives.json'))
+file = open('input/program.asm', 'r')
 
-symbols = 'symbols.json'
-literals = 'literals.json'
+# Output Files
+icFile = open('output/ic.txt', 'a')
 
 pattern = r'\s+'
-
-
-mnemonics = {
-    "stop" : "(IS, 00)",
-    "add" : "(IS, 01)",
-    "sub" : "(IS, 02)",
-    "mult" : "(IS, 03)",
-    "mover" : "(IS, 04)",
-    "movem" : "(IS, 05)",
-    "comp" : "(IS, 06)",
-    "bc" : "(IS, 07)",
-    "div" : "(IS, 08)",
-    "read" : "(IS, 09)",
-    "print" : "(IS, 10)",
-    "dc" : "(DL, 01)",
-    "ds" : "(DL, 02)",
-}
-
-msize = {
-    "stop" : 1,
-    "add" : 1,
-    "sub" : 1,
-    "mult" : 1,
-    "mover" : 1,
-    "movem" :1,
-    "comp" : 1,
-    "bc" : 1,
-    "div" : 1,
-    "read" : 1,
-    "print" : 1,
-    "start" : 1,
-    "end" : 1,
-    "origin" : 1,
-    "equ" : 1,
-    "ltorg" : 1,
-    "dc" : 1,
-    "ds" : 1
-}
-
-registers = {
-    "areg" : 1,
-    "breg" : 2,
-    "creg" : 3,
-    "dreg" : 4
-}
-
-conditionCodes = {
-    "lt" : 1,
-    "le" : 2,
-    "eq" : 3,
-    "gt" : 4,
-    "ge" : 5,
-    "any" : 6
-}
-
-directives = {
-    "start" : "(AD, 01)",
-    "end" : "(AD, 02)",
-    "origin" : "(AD, 03)",
-    "equ" : "(AD, 04)",
-    "ltorg" : "(AD, 05)",
-}
 
 label = instruction = op1 = op2 = op1code = op2code = ""
 current = 0
@@ -103,7 +41,7 @@ for line in file:
 
     label = instruction = op1 = op2 = op1code = op2code = ""
 
-    # Skip blank lines and remove starting & trailing whitespaces
+    # Skip blank lines and remove beginning and trailing whitespace(s)
     if line == '\n': continue
     line = line.strip()
 
@@ -111,8 +49,10 @@ for line in file:
     cmd = list(map(lambda x: x.lower(), cmd))
 
     if len(cmd) == 4:
-
-        # Command is of the format: LABEL INSTRUCTION OP1 OP2
+        """
+            Command is of the format: 
+            LABEL INSTRUCTION OP1 OP2
+        """
         
         label = cmd[0]
         instruction = cmd[1]
@@ -120,11 +60,12 @@ for line in file:
         op2 = cmd[3]
 
     elif len(cmd) == 3:
-
-        # Command is of the format: OP1 INSTRUCTION OP2
-        #                                   OR
-        #                           INSTRUCTION OP1 OP2
-
+        """
+            Command is of the format: 
+            OP1 INSTRUCTION OP2
+                    or
+            INSTRUCTION OP1 OP2
+        """
         cmdIndex = None
         for command in cmd:
             if command in mnemonics:
@@ -144,10 +85,12 @@ for line in file:
             op2 = cmd[cmdIndex + 1]
     
     elif len(cmd) == 2:
-
-        # Command is of the format: INSTRUCTION OP1
-        #                                   OR
-        #                           LABEL INSTRUCTION
+        """
+            Command is of the format: 
+            INSTRUCTION OP1
+                    or
+            LABEL INSTRUCTION
+        """
         cmdIndex = -1
         for command in cmd:
             if command in directives:    
@@ -160,9 +103,9 @@ for line in file:
             label = cmd[0]
 
     else:
-
-        # Command is of the format: INSTRUCTION 
-
+        """
+            Command is of the format: INSTRUCTION
+        """
         instruction = cmd[0]
 
     if instruction in directives:
@@ -296,7 +239,7 @@ for line in file:
                 symbolTable[op2] = [stCnt, op2, previous]
                 op2code = f"(S, {stCnt})"
                 stCnt += 1
-                
+
         IC.append((opcode, op1code, op2code))
         icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
 
@@ -304,8 +247,8 @@ for line in file:
         print(instruction, "Instruction not defined. Exiting the program...")
         exit(0)
 
-with open(symbols, 'w') as json_file:
+with open('output/symbols.json', 'w') as json_file:
     json.dump(symbolTable, json_file, indent=4)
 
-with open(literals, 'w') as json_file:
+with open('output/literals.json', 'w') as json_file:
     json.dump(literalTable, json_file, indent=4)
