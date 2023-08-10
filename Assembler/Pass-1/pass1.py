@@ -17,17 +17,11 @@ with open("ic.txt",'w') as file:
     pass
 file.close()
 
-file = open('assembler/test.asm', 'r')
-icFile = open('assembler/ic.txt', 'a')
+file = open('test.asm', 'r')
+icFile = open('ic.txt', 'a')
 
-symbols = 'assembler/symbols.json'
-literals = 'assembler/literals.json'
-
-# pattern = r'[A-Za-z0-9=,"+-]+'
-# pattern = r'[A-Za-z0-9=,"+-]+'
-# pattern = r'[A-Za-z0-9,+-]+'
-# pattern = r'[A-Za-z0-9=,"\'-]+'
-# pattern = r'\b(?:[A-Za-z0-9+=\'-]+)\b'
+symbols = 'symbols.json'
+literals = 'literals.json'
 
 pattern = r'\s+'
 
@@ -104,22 +98,17 @@ ltCnt = 1
 symbolTable = {}
 literalTable = {}
 
-# Looping through lines in file
+# Loop through lines in file
 for line in file:
 
     label = instruction = op1 = op2 = op1code = op2code = ""
 
-    # Skip blank lines
+    # Skip blank lines and remove starting & trailing whitespaces
     if line == '\n': continue
+    line = line.strip()
 
     cmd = regex.split(pattern, line.rstrip())
     cmd = list(map(lambda x: x.lower(), cmd))
-
-    # literalFlag = False
-
-    # if "=" in cmd:
-    #     cmd.remove("=")
-    #     literalFlag = True
 
     if len(cmd) == 4:
 
@@ -200,20 +189,23 @@ for line in file:
                 previous = current
                 current = symbolTable.get(label)[2] - int(offset)
                 relativeAddresses.append(previous)
+                icFile.write(f"{previous} {opcode} {op1code}\n")
 
-            if "+" in op1:
+            elif "+" in op1:
                 label = op1.split('+')[0]
                 offset = op1.split('+')[1]
                 op1code = f"(S, {symbolTable.get(label)[0]})+{offset}"
                 previous = current
                 current = symbolTable.get(label)[2] + int(offset)
                 relativeAddresses.append(previous)
+                icFile.write(f"{previous} {opcode} {op1code}\n")
 
             else:
                 op1code = f"(S, {symbolTable.get(op1)[0]})"
                 previous = current
                 current = symbolTable.get(op1)[2]
                 relativeAddresses.append(previous)
+                icFile.write(f"{previous} {opcode} {op1code}\n")
             
         elif instruction == 'equ':
             op1 = cmd[0]
@@ -275,7 +267,7 @@ for line in file:
         else:
             if op1 in symbolTable:
                 op1code = f"(S, {symbolTable.get(op1)[0]})"
-            else:
+            elif op1:
                 symbolTable[op1] = [stCnt, op1, previous]
                 op1code = f"(S, {stCnt})"
                 stCnt += 1
@@ -300,22 +292,12 @@ for line in file:
         else:
             if op2 in symbolTable:
                 op2code = f"(S, {symbolTable.get(op2)[0]})"
-            else:
+            elif op2:
                 symbolTable[op2] = [stCnt, op2, previous]
                 op2code = f"(S, {stCnt})"
                 stCnt += 1
-
-        # print({
-        #     "Instruction" : instruction,
-        #     "Instruction Code" : opcode,
-        #     "Operand 1" : op1,
-        #     "Operand 1 Code" : op1code,
-        #     "Operand 2" : op2,
-        #     "Operand 2 Code" : op2code,
-        # })
-
+                
         IC.append((opcode, op1code, op2code))
-        # print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
         icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
 
     else:
