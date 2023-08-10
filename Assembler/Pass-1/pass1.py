@@ -17,13 +17,20 @@ with open("ic.txt",'w') as file:
     pass
 file.close()
 
-file = open('test.asm', 'r')
-icFile = open('ic.txt', 'a')
+file = open('assembler/test.asm', 'r')
+icFile = open('assembler/ic.txt', 'a')
 
-symbols = 'symbols.json'
-literals = 'literals.json'
+symbols = 'assembler/symbols.json'
+literals = 'assembler/literals.json'
 
-pattern = r'[A-Za-z0-9=,"+-]+'
+# pattern = r'[A-Za-z0-9=,"+-]+'
+# pattern = r'[A-Za-z0-9=,"+-]+'
+# pattern = r'[A-Za-z0-9,+-]+'
+# pattern = r'[A-Za-z0-9=,"\'-]+'
+# pattern = r'\b(?:[A-Za-z0-9+=\'-]+)\b'
+
+pattern = r'\s+'
+
 
 mnemonics = {
     "stop" : "(IS, 00)",
@@ -103,9 +110,15 @@ for line in file:
     # Skip blank lines
     if line == '\n': continue
 
-    cmd = regex.findall(pattern, line)
+    cmd = regex.split(pattern, line.rstrip())
     cmd = list(map(lambda x: x.lower(), cmd))
-    
+
+    # literalFlag = False
+
+    # if "=" in cmd:
+    #     cmd.remove("=")
+    #     literalFlag = True
+
     if len(cmd) == 4:
 
         # Command is of the format: LABEL INSTRUCTION OP1 OP2
@@ -124,6 +137,9 @@ for line in file:
         cmdIndex = None
         for command in cmd:
             if command in mnemonics:
+                cmdIndex = cmd.index(command)
+                break
+            if command in directives:
                 cmdIndex = cmd.index(command)
                 break
         
@@ -163,13 +179,13 @@ for line in file:
             current = int(cmd[1])
             opcode = directives.get(instruction)
             op1code = f"(C, {current})"
-            icFile.write(f"{opcode} {op1code}\n")
+            icFile.write(f"{current} {opcode} {op1code}\n")
             continue
 
         elif instruction == 'end':
             opcode = directives.get(instruction)
             # size = int(msize.get(instruction))
-            icFile.write(str((opcode))+ "\n")
+            icFile.write(f'{current} {opcode}\n')
             break
 
         elif instruction == 'origin':
@@ -198,10 +214,23 @@ for line in file:
                 relativeAddresses.append(previous)
             
         elif instruction == 'equ':
-            pass
+            op1 = cmd[0]
+            op2 = cmd[2]
+            symbolTable[op1][2] = symbolTable[op2][2]
 
         elif instruction == 'ltorg':
-            pass
+            for literal, [index, lt, value] in literalTable.items():
+                if value == -1:
+                    value = int(lt)
+                    opcode = "(DL, 01)"
+                    op1code = f"(C, {value})"
+                    icFile.write(f"{current} {opcode} {op1code}\n")
+
+                    previous = current
+                    current += 1
+                    relativeAddresses.append(previous)
+                else:
+                    pass
 
     elif instruction in mnemonics:
         opcode = mnemonics.get(instruction)
@@ -219,7 +248,15 @@ for line in file:
                 symbolTable[label] = [stCnt, label, previous]
                 stCnt += 1
 
-        if op1 in registers:
+        # Operand 1
+
+        if opcode == 'bc':
+            op1code = f'({conditionCodes.get(op1)})'
+
+        elif op1.isdigit():
+            op1code = f'(C, {op1})'
+
+        elif op1 in registers:
             op1code = f"({registers.get(op1)})"
 
         elif "=" in op1:
@@ -239,7 +276,12 @@ for line in file:
                 op1code = f"(S, {stCnt})"
                 stCnt += 1
 
-        if op2 in registers:
+        # Operand 2
+
+        if op2.isdigit():
+            op2code = f'(C, {op2})'
+
+        elif op2 in registers:
             op2code =  f"({registers.get(op2)})"
             
         elif "=" in op2:
@@ -270,7 +312,9 @@ for line in file:
 
         IC.append((opcode, op1code, op2code))
         # print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
-        icFile.write(f"{opcode} {op1code} {op2code}\n")
+        icFile.write(f"{current} {opcode} {op1code} {op2code}\n")
+        label = instruction = op1 = op2 = op1code = op2code = ""
+        
 
     else:
         print(instruction, "Instruction not defined. Exiting the program...")
