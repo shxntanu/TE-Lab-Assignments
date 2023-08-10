@@ -1,13 +1,25 @@
 # Pass 1 Assembler
 
-`pass1.py` : Assembler code in Python
+`pass1.py` : Assembler code
 
-`pass1.cpp` : Assembler code in C++ using STL
+## Input Files
 
-`ic.txt` : Intermediate Code file
+`program.asm` : Test assembly file
 
 `mnemonics.json` : Mnemonics Table
 
+`mnemonic-size.json` : Mnemonic Size Table
+
+`condition-codes.json` : Condition codes table
+
+`directives.json` : Directives Table
+
+`registers.json` : Registers Table
+
+## Output Files
+
+`ic.txt` : Intermediate Code file
+
 `symbols.json` : Symbol Table
 
-`test.asm` : Test assembly file
+`literals.json` : Literal Table
