@@ -105,7 +105,9 @@ symbolTable = {}
 literalTable = {}
 
 # Looping through lines in file
-for line in file: 
+for line in file:
+
+    label = instruction = op1 = op2 = op1code = op2code = ""
 
     # Skip blank lines
     if line == '\n': continue
@@ -179,13 +181,13 @@ for line in file:
             current = int(cmd[1])
             opcode = directives.get(instruction)
             op1code = f"(C, {current})"
-            icFile.write(f"{current} {opcode} {op1code}\n")
+            icFile.write(f"{previous} {opcode} {op1code}\n")
             continue
 
         elif instruction == 'end':
             opcode = directives.get(instruction)
             # size = int(msize.get(instruction))
-            icFile.write(f'{current} {opcode}\n')
+            icFile.write(f'{previous} {opcode}\n')
             break
 
         elif instruction == 'origin':
@@ -221,14 +223,16 @@ for line in file:
         elif instruction == 'ltorg':
             for literal, [index, lt, value] in literalTable.items():
                 if value == -1:
-                    value = int(lt)
-                    opcode = "(DL, 01)"
-                    op1code = f"(C, {value})"
-                    icFile.write(f"{current} {opcode} {op1code}\n")
-
+                    
                     previous = current
                     current += 1
                     relativeAddresses.append(previous)
+
+                    value = int(lt)
+                    opcode = "(DL, 01)"
+                    op1code = f"(C, {value})"
+                    icFile.write(f"{previous} {opcode} {op1code}\n")
+
                 else:
                     pass
 
@@ -250,7 +254,7 @@ for line in file:
 
         # Operand 1
 
-        if opcode == 'bc':
+        if instruction == 'bc':
             op1code = f'({conditionCodes.get(op1)})'
 
         elif op1.isdigit():
@@ -312,9 +316,7 @@ for line in file:
 
         IC.append((opcode, op1code, op2code))
         # print(IC, relativeAddresses, instruction, opcode, op1code, op2code)
-        icFile.write(f"{current} {opcode} {op1code} {op2code}\n")
-        label = instruction = op1 = op2 = op1code = op2code = ""
-        
+        icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
 
     else:
         print(instruction, "Instruction not defined. Exiting the program...")
