@@ -26,7 +26,7 @@
 
 ## Structures
 
-1. Symbol Table
+Symbol Table
 ```
 {
   symbol : [
@@ -37,7 +37,7 @@
   ...
 }
 ```
-2. Literal Table
+Literal Table
 ```
 {
   literal-index : [
