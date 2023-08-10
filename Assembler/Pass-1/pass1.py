@@ -163,7 +163,7 @@ for line in file:
                     current += 1
                     relativeAddresses.append(previous)
 
-                    value = int(lt)
+                    literalTable[literal][2] = current
                     opcode = "(DL, 01)"
                     op1code = f"(C, {value})"
                     icFile.write(f"{opcode} {op1code}\n")
@@ -203,7 +203,7 @@ for line in file:
             if op1 in literalTable:
                 op1code = f"(L, {literalTable.get(op1)[0]})"
             else:
-                literalTable[op1] = [ltCnt, literal, -1]
+                literalTable[ltCnt] = [ltCnt, literal, -1]
                 op1code = f"(L, {ltCnt})"
                 ltCnt += 1
 
@@ -228,7 +228,7 @@ for line in file:
             if op2 in literalTable:
                 op2code = f"(L, {literalTable.get(op2)[0]})"
             else:
-                literalTable[op2] = [ltCnt, literal, -1]
+                literalTable[ltCnt] = [ltCnt, literal, -1]
                 op2code = f"(L, {ltCnt})"
                 ltCnt += 1
 
