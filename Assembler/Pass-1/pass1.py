@@ -113,13 +113,13 @@ for line in file:
             current = int(cmd[1])
             opcode = directives.get(instruction)
             op1code = f"(C, {current})"
-            icFile.write(f"{previous} {opcode} {op1code}\n")
+            icFile.write(f"{opcode} {op1code}\n")
             continue
 
         elif instruction == 'end':
             opcode = directives.get(instruction)
             # size = int(msize.get(instruction))
-            icFile.write(f'{previous} {opcode}\n')
+            icFile.write(f'{opcode}\n')
             break
 
         elif instruction == 'origin':
@@ -132,7 +132,7 @@ for line in file:
                 previous = current
                 current = symbolTable.get(label)[2] - int(offset)
                 relativeAddresses.append(previous)
-                icFile.write(f"{previous} {opcode} {op1code}\n")
+                icFile.write(f"{opcode} {op1code}\n")
 
             elif "+" in op1:
                 label = op1.split('+')[0]
@@ -141,14 +141,14 @@ for line in file:
                 previous = current
                 current = symbolTable.get(label)[2] + int(offset)
                 relativeAddresses.append(previous)
-                icFile.write(f"{previous} {opcode} {op1code}\n")
+                icFile.write(f"{opcode} {op1code}\n")
 
             else:
                 op1code = f"(S, {symbolTable.get(op1)[0]})"
                 previous = current
                 current = symbolTable.get(op1)[2]
                 relativeAddresses.append(previous)
-                icFile.write(f"{previous} {opcode} {op1code}\n")
+                icFile.write(f"{opcode} {op1code}\n")
             
         elif instruction == 'equ':
             op1 = cmd[0]
@@ -166,7 +166,7 @@ for line in file:
                     value = int(lt)
                     opcode = "(DL, 01)"
                     op1code = f"(C, {value})"
-                    icFile.write(f"{previous} {opcode} {op1code}\n")
+                    icFile.write(f"{opcode} {op1code}\n")
 
                 else:
                     pass
@@ -241,7 +241,7 @@ for line in file:
                 stCnt += 1
 
         IC.append((opcode, op1code, op2code))
-        icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
+        icFile.write(f"{opcode} {op1code} {op2code}\n") 
 
     else:
         print(instruction, "Instruction not defined. Exiting the program...")
