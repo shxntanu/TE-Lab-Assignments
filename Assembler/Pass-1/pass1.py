@@ -7,7 +7,7 @@ import os
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
-# Creating the intermediate code file
+# Creating the intermediate code file 
 with open("output/ic.txt",'w') as file:
     pass
 file.close()
