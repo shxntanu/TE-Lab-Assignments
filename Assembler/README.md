@@ -23,3 +23,28 @@
 `symbols.json` : Symbol Table
 
 `literals.json` : Literal Table
+
+## Structures
+
+1. Symbol Table
+```
+{
+  symbol : [
+    symbol-index,
+    symbol,
+    line-count-location
+  ],
+  ...
+}
+```
+2. Literal Table
+```
+{
+  literal-index : [
+    literal-index,
+    literal,
+    line-count-location
+  ],
+  ...
+}
+```
