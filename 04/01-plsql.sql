@@ -6,7 +6,6 @@ BEGIN
 	DECLARE fine INT;
 	DECLARE dt2 INT;
 	DECLARE EXIT HANDLER FOR 1452 SELECT 'Primary Key not Found' ErrorMessage;
-	-- 1452 is the error code for "ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails"
 	
 	SELECT @idt := issuedate 
 		FROM borrower 
@@ -27,6 +26,8 @@ BEGIN
 		UPDATE borrower 
 			SET status = True
 			WHERE (pk_br_id = r_no AND bk_name = bk);
+	ELSE 
+		SELECT "Book has already been returned" AS Message;
 	END IF;
 END $$
 DELIMITER ;
