@@ -11,11 +11,17 @@ BEGIN
 	SELECT @idt := issuedate 
 		FROM borrower 
 		WHERE (pk_br_id = r_no AND bk_name = bk);
+
 	SELECT @stt := status 
 		FROM borrower 
 		WHERE (pk_br_id = r_no AND bk_name = bk);
+
+	-- DATEDIFF is an inbuilt function which returns the number of days between two dates.
 	SET dt2 := DATEDIFF(dt, @idt);
+
+	-- If book has not been returned
 	IF @stt = False THEN
+		-- Set Fine
 		IF dt2 BETWEEN 0 AND 14 THEN
 			SET fine := 0;
 		ELSEIF dt2 BETWEEN 15 AND 30 THEN
@@ -23,10 +29,16 @@ BEGIN
 		ELSE
 			SET fine := 50 * dt2;
 		END IF;
+
+		-- Insert into the fine table
 		INSERT INTO fine (fk_br_id, finedate, amount) VALUES (r_no, dt, fine);
+
+		-- Update the status of the same in the borrower table
 		UPDATE borrower 
 			SET status = True
 			WHERE (pk_br_id = r_no AND bk_name = bk);
+
+	-- Else print status message
 	ELSE 
 		SELECT "Book has already been returned" AS Message;
 	END IF;
