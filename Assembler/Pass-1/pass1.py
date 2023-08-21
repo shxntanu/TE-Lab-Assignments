@@ -7,20 +7,21 @@ import os
 os.system('cls' if os.name == 'nt' else 'clear')
 
 # Creating the intermediate code file 
-with open("output/ic.txt",'w') as file:
+with open("Assembler/Pass-1/output/ic.txt",'w') as file:
     pass
 file.close()
 
 # Input Files
-mnemonics = json.load(open('input/mnemonics.json'))
-msize = json.load(open('input/mnemonic-size.json'))
-registers = json.load(open('input/registers.json'))
-conditionCodes = json.load(open('input/condition-codes.json'))
-directives = json.load(open('input/directives.json'))
-file = open('input/program.asm', 'r')
+mnemonics = json.load(open('Assembler/Pass-1/input/mnemonics.json'))
+msize = json.load(open('Assembler/Pass-1/input/mnemonic-size.json'))
+registers = json.load(open('Assembler/Pass-1/input/registers.json'))
+conditionCodes = json.load(open('Assembler/Pass-1/input/condition-codes.json'))
+directives = json.load(open('Assembler/Pass-1/input/directives.json'))
+file = open('Assembler/Pass-1/input/program.asm', 'r')
+
 
 # Output Files
-icFile = open('output/ic.txt', 'a')
+icFile = open('Assembler/Pass-1/output/ic.txt', 'a')
 
 pattern = r'\s+'
 
@@ -65,7 +66,7 @@ for line in file:
                     or
             INSTRUCTION OP1 OP2
         """
-        cmdIndex = None
+        cmdIndex = -1
         for command in cmd:
             if command in mnemonics:
                 cmdIndex = cmd.index(command)
@@ -95,6 +96,9 @@ for line in file:
             if command in directives:    
                 cmdIndex = cmd.index(command)
                 break
+            if command in mnemonics:  #**********edited
+                cmdIndex = cmd.index(command)
+                break
         instruction = cmd[cmdIndex]
         if cmdIndex == 0:
             op1 = cmd[1]
@@ -112,13 +116,13 @@ for line in file:
             current = int(cmd[1])
             opcode = directives.get(instruction)
             op1code = f"(C, {current})"
-            icFile.write(f"{opcode} {op1code}\n")
+            icFile.write(f"    {opcode} {op1code}\n")
             continue
 
         elif instruction == 'end':
             opcode = directives.get(instruction)
             # size = int(msize.get(instruction))
-            icFile.write(f'{opcode}\n')
+            icFile.write(f'    {opcode}\n')
             break
 
         elif instruction == 'origin':
@@ -131,7 +135,7 @@ for line in file:
                 previous = current
                 current = symbolTable.get(label)[2] - int(offset)
                 relativeAddresses.append(previous)
-                icFile.write(f"{opcode} {op1code}\n")
+                icFile.write(f"    {opcode} {op1code}\n")
 
             elif "+" in op1:
                 label = op1.split('+')[0]
@@ -140,14 +144,14 @@ for line in file:
                 previous = current
                 current = symbolTable.get(label)[2] + int(offset)
                 relativeAddresses.append(previous)
-                icFile.write(f"{opcode} {op1code}\n")
+                icFile.write(f"    {opcode} {op1code}\n")
 
             else:
                 op1code = f"(S, {symbolTable.get(op1)[0]})"
                 previous = current
                 current = symbolTable.get(op1)[2]
                 relativeAddresses.append(previous)
-                icFile.write(f"{opcode} {op1code}\n")
+                icFile.write(f"    {opcode} {op1code}\n")
             
         elif instruction == 'equ':
             op1 = cmd[0]
@@ -162,15 +166,21 @@ for line in file:
                     current += 1
                     relativeAddresses.append(previous)
 
-                    literalTable[literal][2] = current
+                    literalTable[literal][2] = previous #//////////changes current to previous
                     opcode = "(DL, 01)"
-                    op1code = f"(C, {value})"
-                    icFile.write(f"{opcode} {op1code}\n")
+                    op1code = f"(C, {lt})"    #****changed value to lt because val gives memory add and lt is value of literal
+                    icFile.write(f"{previous} {opcode} {op1code}\n") #added prev for lc
 
                 else:
                     pass
 
     elif instruction in mnemonics:
+        if instruction=='DS': #*********added these to avoid printing of (S,n) for the variables in the DS DC instructions
+            # op1code=f"(C,{op2})"
+            op2code=f""
+        if instruction=='DC':
+            op1code=f"(C,{op2[1]})"
+            op2code=f""
         opcode = mnemonics.get(instruction)
         size = int(msize.get(instruction))
 
@@ -205,12 +215,13 @@ for line in file:
                 literalTable[ltCnt] = [ltCnt, literal, -1]
                 op1code = f"(L, {ltCnt})"
                 ltCnt += 1
-
-        else:
+        elif instruction=='DS' or instruction=='DC': #*****added this so that symbol table has value of that LC where the variable is declared using DC DS
+            symbolTable[op1][2]=previous
+        else :
             if op1 in symbolTable:
                 op1code = f"(S, {symbolTable.get(op1)[0]})"
             elif op1:
-                symbolTable[op1] = [stCnt, op1, previous]
+                symbolTable[op1] = [stCnt, op1, -1]
                 op1code = f"(S, {stCnt})"
                 stCnt += 1
 
@@ -234,20 +245,35 @@ for line in file:
         else:
             if op2 in symbolTable:
                 op2code = f"(S, {symbolTable.get(op2)[0]})"
-            elif op2:
+            elif op2 and instruction!='DC': #*** to avoid the literal entry in symbol table
                 symbolTable[op2] = [stCnt, op2, previous]
                 op2code = f"(S, {stCnt})"
                 stCnt += 1
-
-        IC.append((opcode, op1code, op2code))
-        icFile.write(f"{opcode} {op1code} {op2code}\n") 
+        if instruction!='stop':
+            IC.append((opcode, op1code, op2code))
+            icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
+        else:
+            IC.append((opcode))
+            icFile.write(f"{previous} {opcode}\n")
 
     else:
         print(instruction, "Instruction not defined. Exiting the program...")
         exit(0)
+        
+#***** added this to avoid literals without memory location
+for literal, [index, lt, value] in literalTable.items():
+    if value == -1:
+        previous = current
+        current += 1
+        relativeAddresses.append(previous)
+        literalTable[literal][2] = previous #////////changes current to previous
 
-with open('output/symbols.json', 'w') as json_file:
+        opcode = "(DL, 01)"
+        op1code = f"(C, {lt})"   
+        icFile.write(f"{previous} {opcode} {op1code}\n")
+                                       
+with open('Assembler/Pass-1/output/symbols.json', 'w') as json_file:
     json.dump(symbolTable, json_file, indent=4)
 
-with open('output/literals.json', 'w') as json_file:
+with open('Assembler/Pass-1/output/literals.json', 'w') as json_file:
     json.dump(literalTable, json_file, indent=4)
