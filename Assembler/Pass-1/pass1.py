@@ -25,9 +25,15 @@ icFile = open('Assembler/Pass-1/output/ic.txt', 'a')
 
 pattern = r'\s+'
 
-label = instruction = op1 = op2 = op1code = op2code = ""
+label = ""
+instruction = ""
+op1 = ""
+op2 = ""
+op1code = ""
+op2code = ""
 current = 0
 previous = 0
+flag = False
 relativeAddresses = []
 IC = []
 stCnt = 1
@@ -39,7 +45,13 @@ literalTable = {}
 # Loop through lines in file
 for line in file:
 
-    label = instruction = op1 = op2 = op1code = op2code = ""
+    label = ""
+    instruction = ""
+    op1 = ""
+    op2 = ""
+    op1code = ""
+    op2code = ""
+    var = ""
 
     # Skip blank lines and remove beginning and trailing whitespace(s)
     if line == '\n': continue
@@ -69,8 +81,15 @@ for line in file:
         cmdIndex = -1
         for command in cmd:
             if command in mnemonics:
-                cmdIndex = cmd.index(command)
-                break
+                if command == "ds" or command == "dc":
+                    var = cmd[0]
+                    cmdIndex = 1
+                    op1 = cmd[2]
+                    flag = True
+                    break
+                else:    
+                    cmdIndex = cmd.index(command)
+                    break
             if command in directives:
                 cmdIndex = cmd.index(command)
                 break
@@ -80,7 +99,7 @@ for line in file:
             op1 = cmd[1]
             op2 = cmd[2]
         
-        else:
+        elif flag == False:
             op1 = cmd[cmdIndex - 1]
             op2 = cmd[cmdIndex + 1]
     
@@ -175,10 +194,10 @@ for line in file:
                     pass
 
     elif instruction in mnemonics:
-        if instruction=='DS': #*********added these to avoid printing of (S,n) for the variables in the DS DC instructions
+        if instruction=='ds': #*********added these to avoid printing of (S,n) for the variables in the DS DC instructions
             # op1code=f"(C,{op2})"
             op2code=f""
-        if instruction=='DC':
+        if instruction=='dc':
             op1code=f"(C,{op2[1]})"
             op2code=f""
         opcode = mnemonics.get(instruction)
@@ -191,7 +210,7 @@ for line in file:
 
         if label:
             if label in symbolTable:
-                pass
+                symbolTable[label][2] = previous
             else:
                 symbolTable[label] = [stCnt, label, previous]
                 stCnt += 1
@@ -215,7 +234,7 @@ for line in file:
                 literalTable[ltCnt] = [ltCnt, literal, -1]
                 op1code = f"(L, {ltCnt})"
                 ltCnt += 1
-        elif instruction=='DS' or instruction=='DC': #*****added this so that symbol table has value of that LC where the variable is declared using DC DS
+        elif instruction=='ds' or instruction=='dc': #*****added this so that symbol table has value of that LC where the variable is declared using DC DS
             symbolTable[op1][2]=previous
         else :
             if op1 in symbolTable:
@@ -245,7 +264,7 @@ for line in file:
         else:
             if op2 in symbolTable:
                 op2code = f"(S, {symbolTable.get(op2)[0]})"
-            elif op2 and instruction!='DC': #*** to avoid the literal entry in symbol table
+            elif op2 and instruction!='dc': #*** to avoid the literal entry in symbol table
                 symbolTable[op2] = [stCnt, op2, previous]
                 op2code = f"(S, {stCnt})"
                 stCnt += 1
