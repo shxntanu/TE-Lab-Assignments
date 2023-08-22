@@ -23,8 +23,10 @@ file = open('Assembler/Pass-1/input/program.asm', 'r')
 # Output Files
 icFile = open('Assembler/Pass-1/output/ic.txt', 'a')
 
+# Regex pattern to split on occurrence of one or more spaces
 pattern = r'\s+'
 
+# Global variables to store data
 label = ""
 instruction = ""
 op1 = ""
@@ -33,18 +35,20 @@ op1code = ""
 op2code = ""
 current = 0
 previous = 0
-flag = False
+flag = False        # Flag for when DS or DC is encountered
 relativeAddresses = []
 IC = []
 stCnt = 1
 ltCnt = 1
 
+# Tables
 symbolTable = {}
 literalTable = {}
 
 # Loop through lines in file
 for line in file:
 
+    # Clearing variables from previous iteration
     label = ""
     instruction = ""
     op1 = ""
@@ -57,8 +61,11 @@ for line in file:
     if line == '\n': continue
     line = line.strip()
 
+    # Split the line into words and convert them to lowercase to avoid casing issues
     cmd = regex.split(pattern, line.rstrip())
     cmd = list(map(lambda x: x.lower(), cmd))
+
+    # ------------ TOKENIZATION ------------
 
     if len(cmd) == 4:
         """
@@ -130,6 +137,8 @@ for line in file:
         """
         instruction = cmd[0]
 
+    # ------------ INSTRUCTION MATCHING ------------
+
     if instruction in directives:
         if instruction == 'start':
             current = int(cmd[1])
@@ -194,12 +203,15 @@ for line in file:
                     pass
 
     elif instruction in mnemonics:
-        if instruction=='ds': #*********added these to avoid printing of (S,n) for the variables in the DS DC instructions
+        
+        # added these to avoid printing of (S,n) for the variables in the DS DC instructions
+        if instruction=='ds': 
             # op1code=f"(C,{op2})"
             op2code=f""
         if instruction=='dc':
             op1code=f"(C,{op2[1]})"
             op2code=f""
+            
         opcode = mnemonics.get(instruction)
         size = int(msize.get(instruction))
 
@@ -215,7 +227,7 @@ for line in file:
                 symbolTable[label] = [stCnt, label, previous]
                 stCnt += 1
 
-        # Operand 1
+        # ------------ Operand 1 ------------
 
         if instruction == 'bc':
             op1code = f'({conditionCodes.get(op1)})'
@@ -234,7 +246,9 @@ for line in file:
                 literalTable[ltCnt] = [ltCnt, literal, -1]
                 op1code = f"(L, {ltCnt})"
                 ltCnt += 1
-        elif instruction=='ds' or instruction=='dc': #*****added this so that symbol table has value of that LC where the variable is declared using DC DS
+
+         # Added this so that symbol table has value of that LC where the variable is declared using DC DS
+        elif instruction=='ds' or instruction=='dc':
             symbolTable[op1][2]=previous
         else :
             if op1 in symbolTable:
@@ -244,7 +258,7 @@ for line in file:
                 op1code = f"(S, {stCnt})"
                 stCnt += 1
 
-        # Operand 2
+        # ------------ Operand 2 ------------
 
         if op2.isdigit():
             op2code = f'(C, {op2})'
@@ -268,6 +282,7 @@ for line in file:
                 symbolTable[op2] = [stCnt, op2, previous]
                 op2code = f"(S, {stCnt})"
                 stCnt += 1
+                
         if instruction!='stop':
             IC.append((opcode, op1code, op2code))
             icFile.write(f"{previous} {opcode} {op1code} {op2code}\n") 
@@ -279,7 +294,7 @@ for line in file:
         print(instruction, "Instruction not defined. Exiting the program...")
         exit(0)
         
-#***** added this to avoid literals without memory location
+# added this to avoid literals without memory location
 for literal, [index, lt, value] in literalTable.items():
     if value == -1:
         previous = current
