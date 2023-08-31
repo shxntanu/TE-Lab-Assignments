@@ -1,0 +1,22 @@
+{
+    "1": {
+        "index": 1,
+        "name": "A",
+        "value": "AREG"
+    },
+    "2": {
+        "index": 2,
+        "name": "B",
+        "value": "---"
+    },
+    "3": {
+        "index": 3,
+        "name": "U",
+        "value": "CREG"
+    },
+    "4": {
+        "index": 4,
+        "name": "V",
+        "value": "DREG"
+    }
+}
