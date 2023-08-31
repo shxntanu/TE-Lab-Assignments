@@ -7,13 +7,19 @@ import os
 
 os.system('cls' if os.name == 'nt' else 'clear')
 
+# Funtion to get key from a dictionary based on value
+def get_key(val: str, dict: dict) -> any:
+    for key, value in dict.items():
+        if val == value:
+            return key
+
 # Creating the MDT file 
 with open("Macro-Assembler/Pass-1/output/mdt.asm",'w') as file:
     pass
 file.close()
 
 # Input File(s)
-inputFile = 'Macro-Assembler/Pass-1/input/program.asm'
+inputFile = open('Macro-Assembler/Pass-1/input/program.asm', 'r')
 
 # Output File(s)
 mdtFile = open('Macro-Assembler/Pass-1/output/mdt.asm', 'a')
@@ -33,6 +39,7 @@ kpdtab = {}
 # Storage variables
 macroName = ""
 kpdtabIndex = 1
+kpdtabLoc = 1
 mntIndex = 1
 mdtLoc = 1
 
@@ -62,6 +69,9 @@ for line in inputFile:
         
         # Now, cmd contains the list of all the parameters
         for parameter in cmd:
+            if ',' in parameter:
+                parameter = parameter.replace(',','')
+
             if '&' in parameter and '=' not in parameter:
                 paramCnt += 1
                 pp += 1
@@ -73,6 +83,10 @@ for line in inputFile:
                 
             elif '&' in parameter and '=' in parameter:
                 paramCnt += 1
+
+                if kp == 0:
+                    kpdtabLoc = kpdtabIndex
+
                 kp += 1
                 
                 # Get the index of the '=' sign and 
@@ -102,7 +116,7 @@ for line in inputFile:
             'pp' : pp,
             'kp' : kp,
             'mdtp' : mdtLoc,
-            'kpdtp' : kpdtabIndex if kp else '---',
+            'kpdtp' : kpdtabLoc if kp else '---',
         }
         mntIndex += 1
         continue
@@ -112,8 +126,10 @@ for line in inputFile:
         callLine = ""
         
         for command in cmd:
+            if ',' in command:
+                command = command.replace(',','')
             if '&' in command:
-                replParamValue = f'(P,{pntab[macroName].index(command[1::])})'
+                replParamValue = f'(P,{get_key(command[1::], pntab[macroName])})'
                 callLine += replParamValue + " "
             else:
                 callLine += command + " "    
@@ -127,4 +143,14 @@ for line in inputFile:
         mdtFile.write('MEND\n')
         continue
     
-     
+with open('Macro-Assembler/Pass-1/output/mnt.json', 'w') as json_file:
+    json.dump(mnt, json_file, indent=4)
+json_file.close()
+
+with open('Macro-Assembler/Pass-1/output/pntab.json', 'w') as json_file:
+    json.dump(pntab, json_file, indent=4)
+json_file.close()
+
+with open('Macro-Assembler/Pass-1/output/kpdtab.json', 'w') as json_file:
+    json.dump(kpdtab, json_file, indent=4)
+json_file.close()
