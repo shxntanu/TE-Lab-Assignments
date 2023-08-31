@@ -19,7 +19,8 @@ with open("Macro-Assembler/Pass-1/output/mdt.asm",'w') as file:
 file.close()
 
 # Input File(s)
-inputFile = open('Macro-Assembler/Pass-1/input/program.asm', 'r')
+# inputFile = open('Macro-Assembler/Pass-1/input/program.asm', 'r')
+inputFile = open('Macro-Assembler/Pass-1/input/program2.asm', 'r')
 
 # Output File(s)
 mdtFile = open('Macro-Assembler/Pass-1/output/mdt.asm', 'a')
