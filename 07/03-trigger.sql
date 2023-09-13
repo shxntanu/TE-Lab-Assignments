@@ -28,3 +28,6 @@ BEGIN
 	END IF;
 END $$
 DELIMITER ; 
+
+UPDATE Library
+SET book_name = 'quae' WHERE book_id = 3;
