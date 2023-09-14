@@ -83,6 +83,17 @@ for line in callsFile:
             APTAB[str(aptPointer)] = parameter
             aptPointer += 1
 
+    macroStmts = []
+
+
+    current_line_number = 0
+    for mdtLine in mdtFile:
+        current_line_number += 1
+        if current_line_number == mdtPointer:
+            break
+    for mdtLine in mdtFile:
+        
     
-    print(APTAB)
+    # print(APTAB)
     APTAB = ""
+
