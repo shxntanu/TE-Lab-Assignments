@@ -19,8 +19,8 @@ with open("Macro-Assembler/Pass-1/output/mdt.asm",'w') as file:
 file.close()
 
 # Input File(s)
-# inputFile = open('Macro-Assembler/Pass-1/input/program.asm', 'r')
-inputFile = open('Macro-Assembler/Pass-1/input/program2.asm', 'r')
+inputFile = open('Macro-Assembler/Pass-1/input/program.asm', 'r')
+# inputFile = open('Macro-Assembler/Pass-1/input/program2.asm', 'r')
 
 # Output File(s)
 mdtFile = open('Macro-Assembler/Pass-1/output/mdt.asm', 'a')
@@ -80,7 +80,6 @@ for line in inputFile:
                 paramName = parameter[1::]
 
                 pntab[macroName][paramCnt] = paramName
-                pp += 1
                 
             elif '&' in parameter and '=' in parameter:
                 paramCnt += 1
