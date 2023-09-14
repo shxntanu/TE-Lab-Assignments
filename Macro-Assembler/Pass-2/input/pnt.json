@@ -1,0 +1,17 @@
+{
+    "INCR": {
+        "1": "MEM_VAL",
+        "2": "INCR_VAL",
+        "3": "REG"
+    },
+    "INCR_M": {
+        "1": "MEM_VAL",
+        "2": "INCR_VAL",
+        "3": "REG"
+    },
+    "INCR_D": {
+        "1": "MEM_VAL",
+        "2": "INCR_VAL",
+        "3": "REG"
+    }
+}
