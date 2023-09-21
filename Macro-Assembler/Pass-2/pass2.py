@@ -8,11 +8,28 @@ import os
 # Clear the terminal before starting the program
 os.system('cls' if os.name == 'nt' else 'clear')
 
+with open("Macro-Assembler/Pass-2/output/expcode.asm",'w') as file:
+    pass
+file.close()
+
 # Funtion to get key from a dictionary based on value
 def get_key(val: str, dict: dict) -> any:
     for key, value in dict.items():
         if val == value:
             return key
+        
+def process_params(param: str):
+    pattern = r'\(([^,]+),(\d+)\)'
+    match = regex.match(pattern, param)
+    if match:
+        component1 = match.group(1)
+        component2 = int(match.group(2))
+        return component1, component2
+    else:
+        return None
+    
+def convert(lst):
+    return ' '.join(lst)
 
 # Input File(s)
 kpdtabFile = open('Macro-Assembler/Pass-2/input/kpdtab.json', 'r')
@@ -30,7 +47,8 @@ mnt = json.load(mntFile)
 pntab = json.load(pntabFile)
 
 # Regex pattern to split on occurrence of one or more spaces
-pattern = r'\s+'
+spacePattern = r'\s+'
+parameterPattern = r'\(([^,]+),(\d+)\)'
 
 for line in callsFile:
 
@@ -39,7 +57,7 @@ for line in callsFile:
     line = line.strip()
 
     # Split the line into words
-    cmd = regex.split(pattern, line.rstrip())
+    cmd = regex.split(spacePattern, line.rstrip())
 
     macroName = cmd[0]
     MPList = cmd[1::]
@@ -85,15 +103,34 @@ for line in callsFile:
 
     macroStmts = []
 
-
     current_line_number = 0
     for mdtLine in mdtFile:
         current_line_number += 1
         if current_line_number == mdtPointer:
+            macroStmts.append(mdtLine)  
             break
-    for mdtLine in mdtFile:
-        
     
+    for mdtLine in mdtFile:
+        if 'MEND' in mdtLine:
+            break
+        macroStmts.append(mdtLine) 
+
+    for macroStatementIndex in range(len(macroStmts)):
+        macroStatement = macroStmts[macroStatementIndex]
+        macroCmd = regex.split(spacePattern, macroStatement.rstrip())
+        # print(macroCmd)
+        for itemIndex in range(len(macroCmd)):
+            item = macroCmd[itemIndex]
+            if '(' in item:
+                tab,pos = process_params(item)
+                macroCmd[itemIndex] = APTAB[str(pos)]
+        macroCmd[0] = "+" + macroCmd[0]
+        macroStmts[macroStatementIndex] = convert(macroCmd)
+        expcodeFile.write(macroStmts[macroStatementIndex] + '\n')
+        
+    # print(macroStmts)
+    mdtFile.seek(0)
+    expcodeFile.write('\n')
     # print(APTAB)
     APTAB = ""
-
+    mdtLine=""
