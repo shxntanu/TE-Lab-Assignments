@@ -128,6 +128,12 @@ for line in callsFile:
             APTAB[str(aptPointer)] = parameter
             aptPointer += 1
 
+    if nkp:
+        for key,value in kpdtab.items():
+            if (value["macro"] == macroName) and (value["value"] != "---"):
+                if aptab[get_key(value["name"])]:
+                    aptab[get_key(value["name"])] = value["value"]
+
     # List to keep track of expanded stamements of corresponding macro call
     macroStmts = []
 
