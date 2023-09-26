@@ -22,6 +22,7 @@ def get_key(val: str, dict: dict) -> any:
     for key, value in dict.items():
         if val == value:
             return key
+    return None
 
 def process_params(param: str):
 
@@ -128,6 +129,8 @@ for line in callsFile:
             APTAB[str(aptPointer)] = parameter
             aptPointer += 1
 
+    # Assign default values to parameters that haven't been
+    # assiged a value in the call statement
     if nkp:
         for key,value in kpdtab.items():
             if (value["macro"] == macroName) and (value["value"] != "---"):
