@@ -75,7 +75,7 @@ if __name__ == '__main__':
         pos = 0
         print("Free       Consumed    isOccupied?")
         for (free, consumed, isOccupied) in memory:
-            print("{:<14}{:<11}{}".format(free, consumed, isOccupied))
+            print("{:<14}{:<11}{}".format(free, consumed, "Allocated" if isOccupied else "Empty"))
 
         print(f"\nThe current program has size {program}, how do you want to fit it?: ")
         choice = int(input("""1. Best Fit
