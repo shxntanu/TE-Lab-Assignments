@@ -4,7 +4,9 @@
 
 ### Group A
 1. [Assembler](https://github.com/shxntanu/TE-Lab-Assignments/tree/924f3098f18ef7f7f8a4063bb5baf462fe3f7691/Assembler)
-2. [Macro Assembler](https://github.com/shxntanu/TE-Lab-Assignments/tree/9472551b6d865c7150a56e6755144e1cbf4b61c3/Macro-Assembler)
+   - [Pass 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/cc06942bc27c15b34b833445cf1732e3e13b558e/Assembler/Pass-1)
+   - [Pass 2](https://github.com/shxntanu/TE-Lab-Assignments/tree/cc06942bc27c15b34b833445cf1732e3e13b558e/Assembler/Pass-2)
+3. [Macro Assembler](https://github.com/shxntanu/TE-Lab-Assignments/tree/9472551b6d865c7150a56e6755144e1cbf4b61c3/Macro-Assembler)
 
 ### Group B
 
