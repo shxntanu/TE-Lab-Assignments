@@ -15,4 +15,4 @@ INSERT INTO BasicDeets VALUES
 
 SELECT * FROM employee;
 
-// All columns that are not in the view get set default value as NULL
+-- All columns that are not in the view get set default value as NULL
