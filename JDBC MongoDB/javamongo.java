@@ -73,14 +73,16 @@ private static void readDocuments(MongoCollection<Document> collection) {
 }
 
 private static void updateDocument(MongoCollection<Document> collection, Scanner scanner) {
-    System.out.print("Enter the key of the document to update: ");
-    String key = scanner.next();
-    System.out.print("Enter the new value: ");
-    String value = scanner.next();
-    Document filter = new Document(key, value);
-    Document update = new Document("$set", new Document(key, value));
-    collection.updateOne(filter, update);
-    System.out.println("Document updated successfully.");
+	System.out.print("Enter the key of the document to update: ");
+	String key = scanner.next();
+	System.out.print("Enter the previous value: ");
+	String value = scanner.next();
+	Document filter = new Document(key, value);
+	System.out.print("Enter the new value: ");
+	String newValue = scanner.next();
+	Document update = new Document("$set", new Document(key, newValue));
+	collection.updateMany(filter, update);
+	System.out.println("Document updated successfully.");
 }
 
 private static void deleteDocument(MongoCollection<Document> collection, Scanner scanner) {
