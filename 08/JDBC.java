@@ -1,20 +1,16 @@
 package assignment8;
 
-import java.util.*;
 import java.sql.*;
+import com.mysql.*;
+import java.util.*;
 
-public class Main
+public class JDBC
 {
-//	void select() {}
-//	void insert() {}
-//	void update() {}
-//	void delete() {}
-	
     public static void main(String[] args)
     {
-        String url = "jdbc:mysql://10.10.15.233/te31301db";
-        String username = "te31301";
-        String password = "te31301";
+        String url = "jdbc:mysql://127.0.0.1:3306/31380_db";
+        String username = "root";
+        String password = "root1234";
         
         Connection con = null;
         Statement st;
