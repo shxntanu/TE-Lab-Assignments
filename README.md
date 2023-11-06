@@ -303,3 +303,8 @@ ALTER TABLE table_name
     ALTER TABLE old_table_name RENAME new_table_name;
     
 </details>
+
+<div align="center">
+  <img src="https://profile-counter.glitch.me/shxntanu/count.svg?"  />
+</div>
+
