@@ -30,18 +30,21 @@ ON emp.dept_id = dep.dept_id
 
 -- Find the Employee details ,Proj_id,Project cost who does not have Project location as ‘Hyderabad’.
 
-SELECT
-    emp.emp_id AS "Employee ID",
-    emp.emp_fname AS "Name",
-    emp.emp_lname AS "Surname",
-    emp.emp_position AS "Position",
-    emp.emp_salary AS "Salary",
-    emp.emp_jdate AS "Joining Date",
-    pr.proj_cost AS "Project Cost"
-FROM employee AS emp
-RIGHT JOIN project as pr
-    ON (pr.proj_location != "Hyderabad") AND (emp.dept_id = pr.dept_id)
-GROUP BY emp.emp_id;
+SELECT DISTINCT
+    e.emp_id, 
+	e.emp_fname,
+	e.emp_lname,
+	e.emp_position,
+	e.emp_salary,
+	e.emp_jdate,
+    p.proj_id, 
+    p.proj_cost
+FROM 
+    employee e
+INNER JOIN 
+    project p ON e.dept_id = p.dept_id
+WHERE 
+    p.proj_location <> 'Hyderabad';
 
 
 -- Find Department Name ,employee name, Emp_position for which project year is 2020
