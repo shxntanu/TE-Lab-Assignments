@@ -20,3 +20,8 @@
 ### Group C (Elective)
 
 1. [Socket Programming](https://github.com/shxntanu/TE-Lab-Assignments/tree/fee06b528305612337a91a644ffe9c4b66602405/Socket-Programming)
+
+<div align="center">
+  <img src="https://profile-counter.glitch.me/shxntanu/count.svg?"  />
+</div>
+
