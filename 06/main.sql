@@ -63,3 +63,58 @@ INSERT INTO N_EmpID VALUES
 	(186,1,'voluptas','eum','et',940556,'1983-09-08'),
 	(195,2,'nesciunt','non','autem',215182,'2011-04-22'),
 	(198,1,'pariatur','autem','deserunt',974698,'1972-04-24');
+
+DELIMITER $$
+CREATE PROCEDURE mergeEMP () 
+BEGIN
+	DECLARE done INT DEFAULT 0;
+	DECLARE eno INT;
+	DECLARE old_cursor CURSOR FOR SELECT emp_id FROM O_EmpID;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	OPEN old_cursor;
+	
+	getEmpID: LOOP
+		IF done = TRUE THEN
+			LEAVE getEmpID;
+		END IF;
+		FETCH old_cursor INTO eno;
+		
+		IF NOT EXISTS (SELECT 1 FROM N_EmpID where emp_id = eno) THEN 
+			INSERT INTO N_EmpID 
+			SELECT * FROM O_EmpID
+			WHERE O_EmpID.emp_id = eno;
+		END IF;
+	END LOOP;
+	
+	CLOSE old_cursor;
+END $$
+DELIMITER ;
+		
+CALL mergeEMP();
+
+
+DELIMITER $$
+CREATE PROCEDURE mergeEMPwithinBounds (IN lb INT, IN ub INT) 
+BEGIN
+	DECLARE done INT DEFAULT 0;
+	DECLARE eno INT;
+	DECLARE old_cursor1 CURSOR FOR SELECT emp_id FROM O_EmpID WHERE emp_id BETWEEN lb AND ub;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+	OPEN old_cursor1;
+	
+	getEmpID: LOOP
+		IF done = TRUE THEN
+			LEAVE getEmpID;
+		END IF;
+		FETCH old_cursor1 INTO eno;
+		
+		IF NOT EXISTS (SELECT 1 FROM N_EmpID where emp_id = eno) THEN 
+			INSERT INTO N_EmpID 
+			SELECT * FROM O_EmpID
+			WHERE O_EmpID.emp_id = eno;
+		END IF;
+	END LOOP;
+	
+	CLOSE old_cursor1;
+END $$
+DELIMITER ;
