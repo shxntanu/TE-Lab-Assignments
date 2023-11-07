@@ -52,11 +52,13 @@ BEGIN
 END $$
 
 -- Procedure to insert into result table
-CREATE PROCEDURE proc_grade (IN studmarks INT, IN name VARCHAR(50), IN roll INT)
+CREATE PROCEDURE proc_grade (IN stud_name VARCHAR(50), IN roll INT)
 BEGIN
 	DECLARE clss VARCHAR(25);
+	DECLARE studmarks INT;
+	SELECT total_marks INTO studmarks FROM stud_marks WHERE name = stud_name;
 	SET clss := classify(studmarks);
-	INSERT INTO result VALUES (roll, clss, name);
+	INSERT INTO result VALUES (roll, clss, stud_name);
 END $$
 DELIMITER ;
 
