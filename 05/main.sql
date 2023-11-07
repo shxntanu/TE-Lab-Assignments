@@ -35,22 +35,9 @@ INSERT INTO stud_marks VALUES
 ;
 
 DELIMITER $$
-CREATE PROCEDURE proc_grade (IN studmarks INT, IN name VARCHAR(50), IN roll INT)
-BEGIN
-	DECLARE clss VARCHAR(25);
-	IF studmarks BETWEEN 990 AND 1500 THEN
-		SET clss := 'Distinction';
-	ELSEIF studmarks BETWEEN 900 AND 989 THEN
-		SET clss := 'First Class';
-	ELSEIF studmarks BETWEEN 825 AND 899 THEN
-		SET clss := 'Higher Second Class';
-	ELSE
-		SET clss := 'Pass';
-	END IF;
-	INSERT INTO result VALUES (roll, clss, name);
-END $$
 
-CREATE FUNCTION IF NOT EXISTS classify (marks INT) RETURNS VARCHAR
+-- Function to classify marks
+CREATE FUNCTION IF NOT EXISTS classify (marks INT) RETURNS VARCHAR(50)
 DETERMINISTIC
 BEGIN
 	IF marks BETWEEN 990 AND 1500 THEN
@@ -62,6 +49,14 @@ BEGIN
 	ELSE
 		RETURN 'Pass';
 	END IF;
+END $$
+
+-- Procedure to insert into result table
+CREATE PROCEDURE proc_grade (IN studmarks INT, IN name VARCHAR(50), IN roll INT)
+BEGIN
+	DECLARE clss VARCHAR(25);
+	SET clss := classify(studmarks);
+	INSERT INTO result VALUES (roll, clss, name);
 END $$
 DELIMITER ;
 
