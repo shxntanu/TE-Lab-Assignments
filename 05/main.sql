@@ -49,6 +49,20 @@ BEGIN
 	END IF;
 	INSERT INTO result VALUES (roll, clss, name);
 END $$
+
+CREATE FUNCTION IF NOT EXISTS classify (marks INT) RETURNS VARCHAR
+DETERMINISTIC
+BEGIN
+	IF marks BETWEEN 990 AND 1500 THEN
+		RETURN 'Distinction';
+	ELSEIF marks BETWEEN 900 AND 989 THEN
+		RETURN 'First Class';
+	ELSEIF marks BETWEEN 825 AND 899 THEN
+		RETURN 'Higher Second Class';
+	ELSE
+		RETURN 'Pass';
+	END IF;
+END $$
 DELIMITER ;
 
 CALL proc_grade(900, 'Shantanu', 31380);
