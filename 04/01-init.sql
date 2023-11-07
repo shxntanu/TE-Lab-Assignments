@@ -42,9 +42,11 @@ BEGIN
     SELECT @stt := status
         FROM borrower
         WHERE (roll_no = roll AND book_name = book);
-        
+
+    -- DATEDIFF is an inbuilt function which returns the number of days between two dates.
     SET dt2 := DATEDIFF(dt, @idt);
-        
+
+	-- if book has not been returned then set fine
     IF @stt = False THEN
         IF dt2 BETWEEN 0 and 14 THEN
             SET fine := 0;
@@ -61,7 +63,8 @@ BEGIN
         UPDATE borrower 
         	SET status = True
         	WHERE (roll_no = roll AND book_name = book);
-        	
+
+	-- Book has been returned
    	 ELSE 
    	 	SELECT "Book has already been returned" AS Message;
    	 END IF;
@@ -69,5 +72,5 @@ BEGIN
 END $$
 DELIMITER ;
 
-
+-- Sample call
 call library(5, "tempora", '2000-03-20');
