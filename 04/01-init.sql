@@ -1,19 +1,17 @@
 USE 31380_db;
 
 CREATE TABLE borrower (
-	pk_br_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	br_name VARCHAR(50) DEFAULT NULL,
-	issuedate DATE DEFAULT NULL,
-	bk_name VARCHAR(50) DEFAULT NULL,
-	status BOOL DEFAULT NULL
+    roll_no INT,
+    name VARCHAR(50),
+    doi DATE,
+    book_name VARCHAR(50),
+    status VARCHAR(1) DEFAULT 'I'
 );
 
 CREATE TABLE fine (
-	pk_f_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	fk_br_id INT DEFAULT NULL,
-	finedate DATE DEFAULT NULL,
-	amount INT DEFAULT NULL,
-	FOREIGN KEY (fk_br_id) REFERENCES borrower(pk_br_id) ON DELETE CASCADE
+    roll_no INT,
+    date DATE,
+    amt INT
 );
 
 INSERT INTO borrower VALUES 
@@ -28,3 +26,47 @@ INSERT INTO borrower VALUES
 	(9,'harum','2014-11-25','voluptate',1),
 	(10,'doloremque','1988-11-30','quo',1)
 ;
+
+DELIMITER $$
+CREATE PROCEDURE library (IN roll INT, IN book VARCHAR(50), IN dt DATE)
+BEGIN 
+    DECLARE fine INT;
+    DECLARE dt2 INT;
+    DECLARE EXIT HANDLER FOR 1452 SELECT 'Primary Key Not Found' ErrorMessage;
+    
+    SELECT @idt := doi
+        FROM borrower 
+        WHERE (roll_no = roll AND book_name = book);
+        
+    SELECT @stt := status
+        FROM borrower
+        WHERE (roll_no = roll AND book_name = book);
+        
+    SET dt2 := DATEDIFF(dt, @idt);
+        
+    IF @stt = False THEN
+        IF dt2 BETWEEN 0 and 14 THEN
+            SET fine := 0;
+    
+        ELSEIF dt2 BETWEEN 15 AND 30 THEN
+            SET fine := dt2 * 5;
+            
+        ELSE 
+        	SET fine := dt2 * 50;
+        END IF;
+        
+        INSERT INTO fine VALUES (roll, dt, fine);
+        
+        UPDATE borrower 
+        	SET status = True
+        	WHERE (roll_no = roll AND book_name = book);
+        	
+   	 ELSE 
+   	 	SELECT "Book has already been returned" AS Message;
+   	 END IF;
+   	 
+END $$
+DELIMITER ;
+
+
+call library(5, "tempora", '2000-03-20');
