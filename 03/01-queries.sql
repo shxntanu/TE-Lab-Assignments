@@ -71,6 +71,13 @@ WHERE
 	pr.proj_year = 2020
 ; 
 
+-- OR
+
+SELECT dept_name, emp_fname, emp_position FROM 
+employee LEFT JOIN dept USING (dept_id) RIGHT JOIN project USING (dept_id) 
+WHERE proj_year = 2005
+ORDER BY emp_id ASC;
+
 
 -- Display emp_position, dept_name who have Project cost >30000
 
