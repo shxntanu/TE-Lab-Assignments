@@ -17,7 +17,7 @@ msize = json.load(open('Assembler/Pass-1/input/mnemonic-size.json'))
 registers = json.load(open('Assembler/Pass-1/input/registers.json'))
 conditionCodes = json.load(open('Assembler/Pass-1/input/condition-codes.json'))
 directives = json.load(open('Assembler/Pass-1/input/directives.json'))
-file = open('Assembler/Pass-1/input/program.asm', 'r')
+file = open('Assembler/Pass-1/input/program3.asm', 'r')
 
 
 # Output Files
@@ -209,7 +209,7 @@ for line in file:
             # op1code=f"(C,{op2})"
             op2code=f""
         if instruction=='dc':
-            op1code=f"(C,{op2[1]})"
+            # op1code=f"(C,{op2[1]})"
             op2code=f""
             
         opcode = mnemonics.get(instruction)
@@ -262,6 +262,9 @@ for line in file:
 
         if op2.isdigit():
             op2code = f'(C, {op2})'
+
+        elif instruction == 'ds' or instruction == 'dc':
+            symbolTable[var][2] = previous
 
         elif op2 in registers:
             op2code =  f"({registers.get(op2)})"
