@@ -1,56 +1,30 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include<iostream>
+#include<algorithm>
+#include<vector>
 using namespace std;
 
-class Process
-{
-public:
+class Process {
+    public:
     int id;
     string pname;
 
-    Process()
-    {
+    Process () {
         id = 0;
         pname = "";
-    }
+    } 
 
     friend class Election;
 };
 
-class Election
-{
+class Election {
     Process *p;
-    int num;
     int *flag;
+    int num;
 
-public:
-    void input()
-    {
-        cout << "Enter the number of process : ";
-        cin >> num;
-        p = new Process[num];
-        flag = new int[num];
-        for (int i = 0; i < num; i++)
-        {
-            cout << "Enter the Process name:  " << endl;
-            cin >> p[i].pname;
-            cout << "Enter the Id of Process : " << endl;
-            cin >> p[i].id;
-        }
-        int pos = highest(p);
-        cout << "The initial coordinator " << p[pos].pname << " has crashed ";
-    }
-
-public:
-    int highest(Process p[])
-    {
-        int pos = 0;
-        int max = 0;
-        for (int i = 0; i < num; i++)
-        {
-            if (p[i].id > max)
-            {
+    int highest(Process p[]) {
+        int pos = 0, max = 0;
+        for(int i=0;i<num;i++) {
+            if(p[i].id > max) {
                 max = p[i].id;
                 pos = i;
             }
@@ -58,102 +32,100 @@ public:
         return pos;
     }
 
-public:
-    Process bully(Process cord)
-    {
-        for (int i = 0; i < num; i++)
-        {
-            flag[i] = 0;
+    int find_position(int id) {
+        for(int i=0;i<num;i++) {
+            if(p[i].id == id)
+                return i;
         }
+        return 0;
+    }
+
+    public:
+
+    void input() { 
+        cout<<"Enter number of processes: ";
+        cin>>num;
+
+        p = new Process[num];
+        flag = new int[num];
+
+        for(int i=0;i<num;i++) {
+            cout<<"Enter process name: ";
+            cin>>p[i].pname;
+            cout<<"Enter process id: ";
+            cin>>p[i].id;
+        }
+
+        int pos = highest(p);
+        cout<<"Process named "<<p[pos].pname<<" has crashed. ID: "<<p[pos].id<<endl;
+    }
+
+    Process bully (Process coordinator) {
+        for(int i=0;i<num;i++)
+            flag[i] = 0;
+
         int crashed = highest(p);
         flag[crashed] = 1;
 
-        for (int i = 0; i < num; i++)
-        {
-            if (p[i].id > cord.id)
-            {
-                cout << "The election message is sent from " << cord.id << " to " << p[i].id;
-            }
-            else
-            {
-                flag[i] = 1;
+        for(int i=0;i<num;i++) {
+            if(p[i].id > coordinator.id) 
+                cout<<"Election message sent from Process (coordinator) "<<coordinator.id<<" to Process "<<p[i].id<<endl;
+            else flag[i] = 1;
+        }
+
+        for(int i=0;i<num;i++) {
+            if(flag[i] != 1 && p[i].id > coordinator.id) {
+                cout<<"The process "<<p[i].id<<" takes over from the current coordinator "<<coordinator.id<<endl;
+                flag[coordinator.id] = 1;
+                coordinator = p[i];
             }
         }
-        for (int i = 0; i < num; i++)
-        {
-            if (flag[i] != 1 && p[i].id > cord.id)
-            {
-                cout << "The id" << p[i].id << " takes over from " << cord.id << endl;
-                flag[cord.id] = 1;
-                cord = p[i];
-            }
+
+        for(int i=0;i<num;i++) {
+            if(flag[i] == 0) 
+                coordinator = bully(coordinator);
         }
-        for (int i = 0; i < num; i++)
-        {
-            if (flag[i] == 0)
-            {
-                cord = bully(cord);
-            }
-        }
-        return cord;
-    }
-    int find_pos(int id)
-    {
-        int pos = 0;
-        for (int i = 0; i < num; i++)
-        {
-            if (p[i].id == id)
-            {
-                pos = i;
-            }
-        }
-        return pos;
+
+        return coordinator;
     }
 
-public:
-    Process ring(Process cord)
-    {
-        vector<int> v;
+    void ring (Process coordinator) {
+        vector<int> vec;
         int crashed = highest(p);
-        int pos = find_pos(cord.id);
-        int count = 0;
-        int i = pos;
-        while (count < num)
-        {
-            if (i != crashed)
-            {
-                v.push_back(p[i].id);
-            }
-            i = (i + 1) % num;
+        int pos = find_position(coordinator.id);
+        int count = 0, i = pos;
+        while(count < num ) {
+            if(i != crashed) 
+                vec.push_back(p[i].id);
+            i = (i+1)% num;
             count++;
         }
         vector<int>::iterator it;
-        cout << "Message is: " << endl;
-        cout << "[";
-        for (it = v.begin(); it != v.end(); it++)
-        {
-            cout << *it << " ";
+
+        cout<<"Message is [";
+        for(int i=0;i<count;i++) {
+            cout<<vec[i]<<" ";
         }
-        cout << "]" << endl;
-        int cord_id = *max_element(v.begin(), v.end());
-        int final_coord_pos = find_pos(cord_id);
-        cout << "The final coordinator is " << p[final_coord_pos].pname << endl;
+        cout<<"]"<<endl;
+        int coord_id = *max_element(vec.begin(), vec.end());
+        int final_coord_pos = find_position(coord_id);
+        cout<<"Final coordinator is: "<<p[final_coord_pos].pname<<endl;
     }
 };
-int main()
-{
+
+int main() {
     Election e;
     e.input();
-    Process coord;
-    Process final_coord;
+    Process i_coord;
+    Process f_coord;
 
     cout << "Enter the name process which detects that the coordinator has crashed: ";
-    cin >> coord.pname;
+    cin >> i_coord.pname;
     cout << "Enter the id process which detects that the coordinator has crashed: ";
-    cin >> coord.id;
+    cin >> i_coord.id;
+
     int ch = 0;
-    while (ch != 3)
-    {
+    while(ch != 3) {
         cout << "MENU" << endl;
         cout << "1.Bully algorithm\n2.Ring algorithm\n3.Exit\n";
         cout << "Enter your choice: ";
@@ -161,11 +133,11 @@ int main()
         switch (ch)
         {
         case 1:
-            final_coord = e.bully(coord);
-            cout << "The final coordinator is: " << final_coord.pname << endl;
+            f_coord = e.bully(i_coord);
+            cout << "The final coordinator is: " << f_coord.pname << endl;
             break;
         case 2:
-            e.ring(coord);
+            e.ring(i_coord);
         }
     }
 
