@@ -9,7 +9,7 @@
    
 3. [Macro Assembler](https://github.com/shxntanu/TE-Lab-Assignments/tree/934137cf556770999166b3a163c97163189f6237/Macro-Assembler)
    - [Pass 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/934137cf556770999166b3a163c97163189f6237/Macro-Assembler/Pass-1)
-   - [Pass 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/934137cf556770999166b3a163c97163189f6237/Macro-Assembler/Pass-2)
+   - [Pass 2](https://github.com/shxntanu/TE-Lab-Assignments/tree/934137cf556770999166b3a163c97163189f6237/Macro-Assembler/Pass-2)
 
 ### Group B
 
