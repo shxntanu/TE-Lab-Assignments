@@ -10,6 +10,11 @@
 2. [Computer Networks & Security Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/CNSL)
 3. [Laboratory Practice 1](https://github.com/shxntanu/TE-Lab-Assignments/tree/LP1)
 
+## Semester 5
+1. [Data Science and Big Data Analytics Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/DSBDAL)
+2. [Web Technology Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/WTL)
+3. [Laboratory Practice 2](https://github.com/shxntanu/TE-Lab-Assignments/tree/LP2)
+
 <div align="center">
   <img src="https://profile-counter.glitch.me/shxntanu/count.svg?"  />
 </div>
