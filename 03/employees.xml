@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE employees SYSTEM "employees.dtd">
+<?xml-stylesheet type="text/xsl" href="employees.xsl"?>
+<employees>
+    <employee>
+        <id>001</id>
+        <name>John Doe</name>
+        <department>Marketing</department>
+        <position>Manager</position>
+        <salary>60000</salary>
+    </employee>
+    <employee>
+        <id>002</id>
+        <name>Jane Smith</name>
+        <department>Finance</department>
+        <position>Accountant</position>
+        <salary>55000</salary>
+    </employee>
+    <employee>
+        <id>003</id>
+        <name>Tom White</name>
+        <department>IT</department>
+        <position>Developer</position>
+        <salary>70000</salary>
+    </employee>
+    <employee>
+        <id>004</id>
+        <name>Emily Green</name>
+        <department>HR</department>
+        <position>Recruiter</position>
+        <salary>50000</salary>
+    </employee>
+</employees>
