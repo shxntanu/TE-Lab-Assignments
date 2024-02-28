@@ -1,0 +1,31 @@
+#calculator {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+#result {
+    font-size: 20px;
+    padding: 10px;
+    border: none;
+}
+
+div {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+button {
+    flex: 1;
+    padding: 10px;
+    margin: 2px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
+}
