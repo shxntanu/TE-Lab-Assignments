@@ -22,9 +22,9 @@ public class HelloWorldServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Replace with your actual database connection details
-        String url = "jdbc:mysql://localhost:3306/your_database_name";
-        String user = "your_username";
-        String password = "your_password";
+        String url = "jdbc:mysql://localhost:3306/WTL";
+        String user = "root";
+        String password = "1234";
 
         Connection conn = null;
         Statement stmt = null;
