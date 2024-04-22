@@ -23,8 +23,13 @@
    # Enter Super-User mode (password for PICT machines: root123)
    su
 
+   # ----- SU MODE -----
    cd Downloads
-   mv spark-3.5.1-bin-hadoop3.tgz /usr/local/spark
+
+   # Move spark to usr/local
+   mv spark-3.5.1-bin-hadoop3 /usr/local/spark
+
+   # ----- EXIT SU MODE -----
    exit
    ```
 8. Add Spark as an environment variable
