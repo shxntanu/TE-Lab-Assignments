@@ -6,6 +6,7 @@
 
    ```bash
    sudo apt install scala
+   # Password for student: student
    ```
 3. Verify Scala version:
 
