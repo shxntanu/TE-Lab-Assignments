@@ -7,9 +7,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 1. ssh into localhost
 
     ```bash
+    ssh localhost
+    ```
 
-    $ ssh localhost
-
+    ```bash
     Welcome to Ubuntu 18.04 LTS (bison-elk-cougar-mlk X54) (GNU/Linux 5.4.0-125-generic x86_64)
 
     * Documentation:  https://help.ubuntu.com
@@ -29,8 +30,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 2. Start hadoop services
 
     ```bash
-    $ start-all.sh
+    start-all.sh
+    ```
 
+    ```bash
     WARNING: Attempting to start all Apache Hadoop daemons as hadoop in 10 seconds.
     WARNING: This is not a recommended production deployment configuration.
     WARNING: Use CTRL-C to abort.
@@ -56,7 +59,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 3. Crrate a directory in HDFS
 
     ```bash
-    $ hadoop dfs -mkdir /user/<roll no.>
+    hadoop dfs -mkdir /user/<roll no.>
+    ```
+
+    ```bash
 
     WARNING: Use of this script to execute dfs is deprecated.
     WARNING: Attempting to execute replacement "hdfs dfs" instead.
@@ -65,8 +71,11 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 4. Export Hadoop classpath and echo it.
 
     ```bash
-    $ export HADOOP_CLASSPATH=$(hadoop classpath)
-    $ echo $HADOOP_CLASSPATH
+    export HADOOP_CLASSPATH=$(hadoop classpath)
+    echo $HADOOP_CLASSPATH
+    ```
+
+    ```bash
 
     /home/hadoop/hadoop-3.3.5/etc/hadoop:/home/hadoop/hadoop-3.3.5/share/hadoop/common/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/common/*:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs/*:/home/hadoop/hadoop-3.3.5/share/hadoop/mapreduce/*:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn/*
     ```
@@ -74,9 +83,11 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 5. Create an input directory and put the `input.txt` file in it.
 
     ```bash
-    $ hadoop dfs -mkdir /user/<roll no.>/input
-    $ hadoop dfs -put input.txt /user/<roll no.>/input
+    hadoop dfs -mkdir /user/<roll no.>/input
+    hadoop dfs -put input.txt /user/<roll no.>/input
+    ```
 
+    ```bash
     WARNING: Use of this script to execute dfs is deprecated.
     WARNING: Attempting to execute replacement "hdfs dfs" instead.
     ```
@@ -92,8 +103,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
    
    ```bash
    # cd into the folder in which java files are present, then run
-   $ jar -cvf stutorial.jar -C tut/ .
+   jar -cvf stutorial.jar -C tut/ .
+   ```
 
+   ```bash
    added manifest
    adding: WordCount$IntSumReducer.class(in = 1755) (out= 749)(deflated 57%)
    adding: WordCount$TokenizerMapper.class(in = 1752) (out= 764)(deflated 56%)
@@ -103,8 +116,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 8. Run the jar file
 
     ```bash
-    $ hadoop jar '/home/hadoop/<roll no.>/stutorial.jar' WordCount /user/<roll no.>/input /user/<roll no.>/output
+    hadoop jar '/home/hadoop/<roll no.>/stutorial.jar' WordCount /user/<roll no.>/input /user/<roll no.>/output
+    ```
 
+    ```bash
     2024-04-25 11:26:06,585 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at /127.0.0.1:8032
     2024-04-25 11:26:06,840 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
     2024-04-25 11:26:06,922 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1714024261854_0001
@@ -188,8 +203,10 @@ Write a code in JAVA for a simple Word Count application that counts the number 
 8. Check the output
 
     ```bash
-    $ hadoop dfs -cat /user/<roll no.>/output/*
+    hadoop dfs -cat /user/<roll no.>/output/*
+    ```
 
+    ```bash
     WARNING: Use of this script to execute dfs is deprecated.
     WARNING: Attempting to execute replacement "hdfs dfs" instead.
 
