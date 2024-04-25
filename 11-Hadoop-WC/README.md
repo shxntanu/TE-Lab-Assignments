@@ -47,7 +47,15 @@ Write a code in JAVA for a simple Word Count application that counts the number 
     resourcemanager is running as process 6467.  Stop it first and ensure /tmp/hadoop-hadoop-resourcemanager.pid file is empty before retry.
     Starting nodemanagers
     localhost: nodemanager is running as process 6646.  Stop it first and ensure /tmp/hadoop-hadoop-nodemanager.pid file is empty before retry.
-    hadoop@pict-OptiPlex-5070:~$ jps
+    ```
+
+3. Check the status of the services
+
+    ```bash
+    jps
+    ```
+
+    ```bash
     3184 SecondaryNameNode
     6467 ResourceManager
     6646 NodeManager
@@ -56,7 +64,7 @@ Write a code in JAVA for a simple Word Count application that counts the number 
     2795 NameNode
     ```
 
-3. Crrate a directory in HDFS
+4. Crrate a directory in HDFS
 
     ```bash
     hadoop dfs -mkdir /user/<roll no.>
@@ -68,7 +76,7 @@ Write a code in JAVA for a simple Word Count application that counts the number 
     WARNING: Attempting to execute replacement "hdfs dfs" instead.
     ```
 
-4. Export Hadoop classpath and echo it.
+5. Export Hadoop classpath and echo it.
 
     ```bash
     export HADOOP_CLASSPATH=$(hadoop classpath)
@@ -80,7 +88,7 @@ Write a code in JAVA for a simple Word Count application that counts the number 
     /home/hadoop/hadoop-3.3.5/etc/hadoop:/home/hadoop/hadoop-3.3.5/share/hadoop/common/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/common/*:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/hdfs/*:/home/hadoop/hadoop-3.3.5/share/hadoop/mapreduce/*:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn/lib/*:/home/hadoop/hadoop-3.3.5/share/hadoop/yarn/*
     ```
 
-5. Create an input directory and put the `input.txt` file in it.
+6. Create an input directory and put the `input.txt` file in it.
 
     ```bash
     hadoop dfs -mkdir /user/<roll no.>/input
@@ -92,14 +100,14 @@ Write a code in JAVA for a simple Word Count application that counts the number 
     WARNING: Attempting to execute replacement "hdfs dfs" instead.
     ```
 
-6. Compile the java code
+7. Compile the java code
 
     ```bash
     # Directory of the compiled files
     javac -classpath ${HADOOP_CLASSPATH} -d "</home/hadoop/<roll no.>/tut>" '/home/hadoop/<roll no.>/WordCount.java'
     ```
 
-7. Create a jar file
+8. Create a jar file
    
    ```bash
    # cd into the folder in which java files are present, then run
@@ -113,7 +121,7 @@ Write a code in JAVA for a simple Word Count application that counts the number 
    adding: WordCount.class(in = 1511) (out= 825)(deflated 45%)
    ```
 
-8. Run the jar file
+9.  Run the jar file
 
     ```bash
     hadoop jar '/home/hadoop/<roll no.>/stutorial.jar' WordCount /user/<roll no.>/input /user/<roll no.>/output
@@ -200,7 +208,7 @@ Write a code in JAVA for a simple Word Count application that counts the number 
             Bytes Written=15
     ```
 
-8. Check the output
+10. Check the output
 
     ```bash
     hadoop dfs -cat /user/<roll no.>/output/*
