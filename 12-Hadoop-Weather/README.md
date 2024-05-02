@@ -1,5 +1,7 @@
 # Hadoop Weather Data Average Assignment
 
+> [Video](https://drive.google.com/file/d/107GgjNzJeL6pR5hAePGdDOblmXklkYs1/view?usp=sharing)
+
 Locate dataset (e.g., sample_weather.txt) for working on weather data which reads the text
 input files and finds average for temperature, dew point and wind speed.
 
