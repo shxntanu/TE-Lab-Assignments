@@ -1,0 +1,116 @@
+Initial state:
+1 2 3 
+0 4 6 
+7 5 8 
+Goal state:
+1 2 3 
+4 5 6 
+7 8 0 
+---------------------------------------
+>>> Step  1 :
+>> Selected state from Frontier: 
+1 2 3 
+0 4 6 
+7 5 8 
+
+>> Possible States: 
+1 2 3 
+7 4 6 
+0 5 8 
+h(n) for above state is 5
+g(n) for above state is 1
+f(n) for above state is 6
+
+1 2 3 
+4 0 6 
+7 5 8 
+h(n) for above state is 3
+g(n) for above state is 1
+f(n) for above state is 4
+
+0 2 3 
+1 4 6 
+7 5 8 
+h(n) for above state is 5
+g(n) for above state is 1
+f(n) for above state is 6
+
+
+-------------------------
+
+>>> Step  2 :
+>> Selected state from Frontier: 
+1 2 3 
+4 0 6 
+7 5 8 
+
+>> Possible States: 
+1 2 3 
+4 5 6 
+7 0 8 
+h(n) for above state is 2
+g(n) for above state is 2
+f(n) for above state is 4
+
+1 2 3 
+4 6 0 
+7 5 8 
+h(n) for above state is 4
+g(n) for above state is 2
+f(n) for above state is 6
+
+1 0 3 
+4 2 6 
+7 5 8 
+h(n) for above state is 4
+g(n) for above state is 2
+f(n) for above state is 6
+
+1 2 3 
+0 4 6 
+7 5 8 
+h(n) for above state is 4
+g(n) for above state is 2
+f(n) for above state is 6
+
+
+-------------------------
+
+>>> Step  3 :
+>> Selected state from Frontier: 
+1 2 3 
+4 5 6 
+7 0 8 
+
+>> Possible States: 
+1 2 3 
+4 5 6 
+7 8 0 
+h(n) for above state is 0
+g(n) for above state is 3
+f(n) for above state is 3
+
+1 2 3 
+4 0 6 
+7 5 8 
+h(n) for above state is 3
+g(n) for above state is 3
+f(n) for above state is 6
+
+1 2 3 
+4 5 6 
+0 7 8 
+h(n) for above state is 3
+g(n) for above state is 3
+f(n) for above state is 6
+
+
+-------------------------
+
+>>> Step  4 :
+>> Selected state from Frontier: 
+1 2 3 
+4 5 6 
+7 8 0 
+
+Done
