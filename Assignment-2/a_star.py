@@ -147,9 +147,13 @@ while len(open_set) != 0:
 
     # Iterate through the neighbours
     for neighbor in move(current):
+        # tent_g_score represents the cost of moving to the next possible state via the current state
         tent_g_score = g_score.get(current, INFINITY) + 1
         # This condition ensures that no cycles are formed
         # while traversing the graph
+
+        #  if the tentative cost of reaching the neighbor node via the current node is 
+        # less than the current known cost of reaching the neighbor node
         if tent_g_score < g_score.get(neighbor , INFINITY):
             g_score[neighbor] = tent_g_score
             f_score[neighbor] = tent_g_score + heuristic(neighbor, goal_puzzle)
