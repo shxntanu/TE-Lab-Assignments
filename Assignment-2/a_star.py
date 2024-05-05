@@ -1,4 +1,4 @@
-# Credits: Advait Naik
+# Credits: Advait Naik ( @advait0801 )
 
 import copy
 
@@ -13,7 +13,7 @@ class Puzzle:
     """
 
     def __init__(self, elements):
-        assert(len(elements) == len(elements[0]), "Puzzle must have equal rows and columns")
+        assert len(elements) == len(elements[0]), "Puzzle must have equal rows and columns"
         self.board = elements
         self.n_dims = len(elements)
         
@@ -66,7 +66,7 @@ def heuristic(init_puzzle: Puzzle, goal_puzzle: Puzzle):
     by comparing `init_puzzle` with `goal_puzzle`
     """
 
-    assert(init_puzzle.n_dims == goal_puzzle.n_dims, "Puzzles must have equal dimensions")
+    assert init_puzzle.n_dims == goal_puzzle.n_dims, "Puzzles must have equal dimensions"
     count_misplaced = 0
     
     for i in range(init_puzzle.n_dims):
@@ -82,7 +82,7 @@ def is_goal(curr_puzzle: Puzzle, goal_puzzle: Puzzle):
     Goal-test function which checks if all elements are aligned
     """
 
-    assert(curr_puzzle.n_dims == goal_puzzle.n_dims , "Puzzles must have equal dimensions")
+    assert curr_puzzle.n_dims == goal_puzzle.n_dims , "Puzzles must have equal dimensions"
 
     for i in range(curr_puzzle.n_dims ):
         for j in range(curr_puzzle.n_dims ):
@@ -132,40 +132,39 @@ while len(open_set) != 0:
             min_f_score_node = node
 
     print(">> Selected state from Frontier: ")    
-    current = min_f_score_node
-    current.display()
+    current_state = min_f_score_node
+    current_state.display()
     print()
     num_step += 1
 
     # Perform goal test
-    if is_goal(current, goal_puzzle):
+    if is_goal(current_state, goal_puzzle):
         print("Done") 
         break
 
     print(">> Possible States: ")
-    open_set.remove(current)
+    open_set.remove(current_state)
 
-    # Iterate through the neighbours
-    for neighbor in move(current):
-        # tent_g_score represents the cost of moving to the next possible state via the current state
-        tent_g_score = g_score.get(current, INFINITY) + 1
+    for neighbour in move(current_state):
+        # the below variable represents the cost of moving to the 
+        # next possible state (neighbour) via the current state
+        # which is generally 1 in such grid based problems
+        cost_thru_current = g_score.get(current_state, INFINITY) + 1
         # This condition ensures that no cycles are formed
         # while traversing the graph
 
-        #  if the tentative cost of reaching the neighbor node via the current node is 
+        # if the tentative cost of reaching the neighbor node via the current node is 
         # less than the current known cost of reaching the neighbor node
-        if tent_g_score < g_score.get(neighbor , INFINITY):
-            g_score[neighbor] = tent_g_score
-            f_score[neighbor] = tent_g_score + heuristic(neighbor, goal_puzzle)
-            if neighbor not in open_set:
-                open_set.append(neighbor)
-                neighbor.display()
-                print(f"h(n) for above state is {heuristic(neighbor, goal_puzzle)}")
-                print(f"g(n) for above state is {g_score[neighbor]}")
-                print(f"f(n) for above state is {f_score[neighbor]}")
+        if cost_thru_current < g_score.get(neighbour , INFINITY):
+            g_score[neighbour] = cost_thru_current
+            f_score[neighbour] = cost_thru_current + heuristic(neighbour, goal_puzzle)
+            if neighbour not in open_set:
+                open_set.append(neighbour)
+                neighbour.display()
+                print(f"h(n) for above state is {heuristic(neighbour, goal_puzzle)}")
+                print(f"g(n) for above state is {g_score[neighbour]}")
+                print(f"f(n) for above state is {f_score[neighbour]}")
                 print()
     print()
     print("-------------------------")
     print()
-
-    
