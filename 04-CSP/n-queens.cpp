@@ -7,10 +7,9 @@ bool isSafe(int row, int col, int **board, int n) {
     if (board[row][i] == 1 || board[i][col] == 1) return false;
   }
   // Check diagonal attacks
-  int i, j;
+
   // Top left diagonal
-  i = row;
-  j = col;
+  int i = row, j = col;
   while (i >= 0 && j >= 0) {
     if (board[i][j] == 1) return false;
     i--;
@@ -18,15 +17,32 @@ bool isSafe(int row, int col, int **board, int n) {
   }
 
   // Bottom left diagonal
-  i = row;
-  j = col;
+  i = row, j = col;
   while (i < n && j >= 0) {
     if (board[i][j] == 1) return false;
     i++;
     j--;
   }
+
+  // Top right diagonal
+  i = row, j = col;
+  while (i >= 0 && j < n) {
+    if (board[i][j] == 1) return false;
+    i--;
+    j++;
+  }
+
+  // Bottom right diagonal
+  i = row, j = col;
+  while (i < n && j < n) {
+    if (board[i][j] == 1) return false;
+    i++;
+    j++;
+  }
+
   return true;
 }
+
 
 bool solveNQueens(int **board, int col, int n) {
   if (col >= n) {
