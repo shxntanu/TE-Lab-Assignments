@@ -1,6 +1,6 @@
 class Graph:
     def __init__(self, vertices):
-        self.V = vertices
+        self.vertices = vertices
         self.graph = [[0 for _ in range(vertices)] for _ in range(vertices)]
 
     # Function to add an edge to the graph
@@ -9,13 +9,13 @@ class Graph:
         self.graph[v][u] = weight
 
     # Function to find the vertex with the minimum key value
-    def min_key(self, key, mst_set):
+    def min_key(self, keys, mst_set):
         min_val = float('inf')
         min_index = None
 
-        for v in range(self.V):
-            if key[v] < min_val and not mst_set[v]:
-                min_val = key[v]
+        for v in range(self.vertices):
+            if keys[v] < min_val and not mst_set[v]:
+                min_val = keys[v]
                 min_index = v
 
         return min_index
@@ -23,27 +23,27 @@ class Graph:
     # Function to construct and print MST
     def prim_mst(self):
         # Key values used to pick minimum weight edge in cut
-        key = [float('inf')] * self.V
-        parent = [None] * self.V  # Array to store constructed MST
-        key[0] = 0  # Make key 0 so that this vertex is picked as first vertex
-        mst_set = [False] * self.V
+        keys = [float('inf')] * self.vertices
+        parents = [None] * self.vertices  # Array to store constructed MST
+        keys[0] = 0  # Make key 0 so that this vertex is picked as first vertex
+        mst_set = [False] * self.vertices
 
-        parent[0] = -1  # First node is always the root of MST
+        parents[0] = -1  # First node is always the root of MST
 
-        for _ in range(self.V):
-            u = self.min_key(key, mst_set)  # Pick the minimum key vertex from the set of vertices not yet included in MST
+        for _ in range(self.vertices):
+            u = self.min_key(keys, mst_set)  # Pick the minimum key vertex from the set of vertices not yet included in MST
 
             mst_set[u] = True  # Add the picked vertex to the MST set
 
             # Update key value and parent index of the adjacent vertices of the picked vertex
-            for v in range(self.V):
-                if self.graph[u][v] > 0 and not mst_set[v] and key[v] > self.graph[u][v]:
-                    key[v] = self.graph[u][v]
-                    parent[v] = u
+            for v in range(self.vertices):
+                if self.graph[u][v] > 0 and not mst_set[v] and keys[v] > self.graph[u][v]:
+                    keys[v] = self.graph[u][v]
+                    parents[v] = u
 
         print("Edge \tWeight")
-        for i in range(1, self.V):
-            print(parent[i], "-", i, "\t", self.graph[i][parent[i]])
+        for i in range(1, self.vertices):
+            print(parents[i], "-", i, "\t", self.graph[i][parents[i]])
 
 
 # Example usage:
