@@ -1,0 +1,37 @@
+public class Calculator{
+    public double firstnumber{get;set;}
+    public double secondnumber{get;set;}
+    public double result{get;set;}
+    public void Addition(){
+        result = firstnumber + secondnumber;
+  
+    }
+    public void Subtraction(){
+        result = firstnumber - secondnumber;
+    }
+    public void Multiplication(){
+        result = firstnumber * secondnumber;
+    }
+    public void Division(){
+        result = firstnumber / secondnumber;
+    }
+    public void Modulus(){
+        result = math.mod(firstnumber.intValue(),secondnumber.intValue());
+    }
+    public void power(){
+        result = math.pow(firstnumber,secondnumber);
+    }
+    public void square_root1(){
+        result = math.sqrt(firstnumber);
+    }
+    public void square_root2(){
+        result = math.sqrt(secondnumber);
+    }
+    public void square1(){
+        result = firstnumber * firstnumber;
+    }
+    public void square2(){
+        result = secondnumber * secondnumber;
+    }
+    
+}

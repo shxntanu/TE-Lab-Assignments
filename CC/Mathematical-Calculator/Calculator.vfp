@@ -1,0 +1,25 @@
+<apex:page controller="Calculator">
+    <apex:sectionHeader title="Calculator" subtitle="Simple Calculator"/>
+    <apex:form >
+    <apex:pageBlock>
+        <apex:pageBlockButtons style="text-align: left;" >
+            <apex:commandButton value="Addition" action="{!Addition}" reRender="res"/>
+            <apex:commandButton value="Subtraction" action="{!Subtraction}" reRender="res"/>
+            <apex:commandButton value="Multiplication" action="{!Multiplication}" reRender="res"/>
+            <apex:commandButton value="Division" action="{!Division}" reRender="res"/>
+            <apex:commandButton value="Modulus" action="{!Modulus}" reRender="res"/>
+            <apex:commandButton value="Square of Num1" action="{!square1}" reRender="res"/>
+            <apex:commandButton value="Square of Num2" action="{!square2}" reRender="res"/>
+            <apex:commandButton value="Sqrt of Num1" action="{!square_root1}" reRender="res"/>
+            <apex:commandButton value="Sqrt of Num2" action="{!square_root2}" reRender="res"/>
+            <apex:commandButton value="Carat(Power)" action="{!power}" reRender="res"/>
+            
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection >
+            <apex:inputText label="Enter first number" html-placeholder="First Number" value="{!firstnumber}"/>
+            <apex:inputText label="Enter second number" html-placeholder="Second Number" value="{!secondnumber}"/>
+            <apex:outputText label="Result" value="{!result}" id="res" ></apex:outputText>
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
