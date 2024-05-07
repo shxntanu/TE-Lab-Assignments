@@ -1,6 +1,6 @@
 # To execute anonymous window
 
-```apxc
+```java
 ElectricityBill e = new ElectricityBill();
 e.calculate_amt(350);
 ```
