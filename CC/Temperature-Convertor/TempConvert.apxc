@@ -1,0 +1,8 @@
+public class TempConvert {
+    public void convert(double celsius){
+        double f = 0;
+        f = 32 + (1.8 * celsius);
+        System.debug('Temperature in °C is: '+celsius);
+        System.debug('Temperature in °F is: '+f);
+    }
+}

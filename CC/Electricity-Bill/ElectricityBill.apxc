@@ -1,0 +1,30 @@
+public class ElectricityBill {
+    public void calculate_amt(double units){
+        Map<String,Double>rates = new Map<String,Double>{
+            '0-100' => 3.36,
+            '101-300' => 7.34,
+            '301-500' => 10.37,
+            '>500' => 11.86
+        };
+        System.debug('Units'+' : '+'Rate per unit in Rs');
+		for(String unit : rates.keySet()) {
+            System.debug(unit + ' : ' + rates.get(unit));
+        }
+        double amount=0;
+        if(units > 0 && units <= 100){
+            amount = units * 3.36;
+                
+        }
+        else if(units >= 101 && units <= 300){
+            amount = 100 * 3.36 + (units - 100) * 7.34;
+        }
+        else if(units >= 301 && units <= 500){
+            amount = 100 * 3.36 + 200 * 7.34 + (units - 300) * 10.37;
+        }
+        else{
+            amount = 100 * 3.36 + 200 * 7.34 + 200 * 10.37 + (units - 500) * 11.86;
+        }
+        System.debug('The Amount is: '+amount);
+    }
+
+}

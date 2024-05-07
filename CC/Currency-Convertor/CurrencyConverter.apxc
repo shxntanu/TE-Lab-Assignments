@@ -1,0 +1,31 @@
+public class CurrencyConverter {
+   
+    public void convertCurrency(String fromcurrency,String tocurrency, double amount){
+        Map<String,Double> conversionrate=new Map<String,Double>{
+            'INR-USD' => 0.012,
+            'USD-INR' => 83.38,
+            'INR-Pound' => 0.0096,
+            'Pound-INR' => 104.63,
+            'USD-Pound' => 0.80,
+            'Pound-USD' => 1.25
+            
+        };
+        System.debug('Available Currency Conversions');
+            for(String curr : conversionrate.keySet()){
+                System.debug(curr + ' : ' + conversionrate.get(curr));
+            }
+  
+        double convertedcurr = 0;
+        String conversionkey=fromcurrency+'-'+tocurrency;
+        //key to extract the conversion rate from map
+        if(conversionrate.containsKey(conversionkey)){
+            //calculate the converted currency
+            convertedcurr=amount * conversionrate.get(conversionkey);
+            System.debug('Converted Currency is '+ convertedcurr);
+        }else{
+            System.debug('Conversion rate not found :( Select another currency!');
+        }
+        
+        
+    }
+}

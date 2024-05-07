@@ -1,0 +1,18 @@
+public class Maximum{
+    public void compare(integer x, integer y ,integer z){
+        if( x!=0 && y!=0 && z!=0){
+            if(x==y && y==z){
+                System.debug(x+' is the greatest number');
+            }
+            else if(x>y && x>z){
+                System.debug(x+' is the greatest number');
+            }
+            else if(y>x && y>z){
+                System.debug(y+' is the greatest');
+            }
+            else{
+                System.debug(z+' is the greatest');
+            }
+        }
+    }
+}
