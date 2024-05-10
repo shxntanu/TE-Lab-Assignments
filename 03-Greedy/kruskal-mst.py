@@ -1,73 +1,64 @@
 class Graph:
-    def __init__(self, vertices):
-        self.V = vertices
-        self.graph = []
+    def __init__(self):
+        self.adj_list: dict[str, list[(str, int)]] = {}
+        self.edges = []
 
-    # Function to add an edge to the graph
-    def add_edge(self, u, v, weight):
-        self.graph.append([u, v, weight])
+    def add_edge(self, node_1: str, node_2: str, weight: int):
+        if node_1 not in self.adj_list:
+            self.adj_list[node_1] = []
+        self.adj_list[node_1].append((node_2, weight))
+        if node_2 not in self.adj_list:
+            self.adj_list[node_2] = []
+        self.adj_list[node_2].append((node_1, weight))
+        self.edges.append((node_1, node_2, weight))
 
-    # Find set of an element i
-    def find(self, parent, i):
-        if parent[i] == i:
-            return i
-        return self.find(parent, parent[i])
+    def check_cycle(self, src: str, dst: str) -> bool:
+        if src not in self.adj_list or dst not in self.adj_list:
+            return False
+        queue = [src]
+        visited = [src]
+        while len(queue) != 0:
+            front = queue.pop(0)
+            if front == dst:
+                return True
+            neighbors = self.adj_list[front]
+            for neighbor in neighbors:
+                if neighbor[0] not in visited:
+                    visited.append(neighbor[0])
+                    queue.append(neighbor[0])
+        return False
 
-    # Union of two sets of x and y
-    def union(self, parent, rank, x, y):
-        xroot = self.find(parent, x)
-        yroot = self.find(parent, y)
-
-        if rank[xroot] < rank[yroot]:
-            parent[xroot] = yroot
-        elif rank[xroot] > rank[yroot]:
-            parent[yroot] = xroot
-        else:
-            parent[yroot] = xroot
-            rank[xroot] += 1
-
-    # Function to construct MST using Kruskal's algorithm
-    def kruskal_mst(self):
-        result = []  # This will store the resultant MST
-        i = 0  # Index variable, used for sorted edges
-        e = 0  # Index variable, used for result[]
-
-        # Step 1: Sort all the edges in non-decreasing order of their weight.
-        self.graph = sorted(self.graph, key=lambda item: item[2])
-
-        parent = []
-        rank = []
-
-        # Create V subsets with single elements
-        for node in range(self.V):
-            parent.append(node)
-            rank.append(0)
-
-        # Number of edges to be taken is equal to V-1
-        while e < self.V - 1:
-            # Step 2: Pick the smallest edge.
-            u, v, weight = self.graph[i]
-            i += 1
-            x = self.find(parent, u)
-            y = self.find(parent, v)
-
-            # If including this edge does not cause cycle, include it in result and increment the index of result for next edge
-            if x != y:
-                e += 1
-                result.append([u, v, weight])
-                self.union(parent, rank, x, y)
-
-        print("Edge \tWeight")
-        for u, v, weight in result:
-            print(u, "-", v, "\t", weight)
+    def __str__(self) -> str:
+        str_repr = ""
+        for key, val in self.adj_list.items():
+            str_repr += f"{key} {self.adj_list[key]}\n"
+        return str_repr
 
 
-# Example usage:
-g = Graph(4)
-g.add_edge(0, 1, 10)
-g.add_edge(0, 2, 6)
-g.add_edge(0, 3, 5)
-g.add_edge(1, 3, 15)
-g.add_edge(2, 3, 4)
+def min_spanning_tree(graph: Graph):
+    ordered_edges = list(sorted(graph.edges, key=lambda edge: edge[2]))
+    spanning_tree: Graph = Graph()
+    min_cost: int = 0
+    for edge in ordered_edges:
+        if spanning_tree.check_cycle(edge[0], edge[1]):
+            continue
+        spanning_tree.add_edge(*edge)
+        min_cost += edge[2]
+    print(f"Min cost of spanning tree {min_cost}")
 
-g.kruskal_mst()
+
+graph = Graph()
+
+while True:
+    print("Add edge to the graph: ")
+    node_a = input("Enter first node: ")
+    node_b = input("Enter second node: ")
+    if node_a == node_b == "-":
+        break
+    weight = int(input("Enter weight of the edge: "))
+    graph.add_edge(node_a, node_b, weight)
+
+print("Graph adjacency list: ")
+print(graph)
+
+min_spanning_tree(graph)
