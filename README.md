@@ -6,6 +6,8 @@
 
 Collection of Lab Assignments of SPPU TE Comp (2019 Pattern) of DBMS, CNS, LP1, DSBDAL, WTL and LP2.
 
+> [AI Previous Year Questions (Solved)](PYQ/AI%20PYQ%20Solutions.pdf)
+
 
 ## Semester 5
 1. [Database Management Systems Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/DBMSL)
