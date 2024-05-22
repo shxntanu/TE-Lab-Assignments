@@ -4,6 +4,8 @@
 ![Static Badge](https://img.shields.io/badge/Computer%20Networks-blue)
 ![Static Badge](https://img.shields.io/badge/Laboratory%20Practice%201-yellow)
 
+Collection of Lab Assignments of SPPU TE Comp (2019 Pattern) of DBMS, CNS, LP1, DSBDAL, WTL and LP2.
+
 
 ## Semester 5
 1. [Database Management Systems Lab](https://github.com/shxntanu/TE-Lab-Assignments/tree/DBMSL)
