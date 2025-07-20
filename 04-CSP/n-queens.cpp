@@ -83,6 +83,9 @@ int main() {
   int** board = new int*[n];
   for (int i = 0; i < n; i++) {
       board[i] = new int[n];
+    for (int j = 0; j < n; j++) {
+      board[i][j] = 0; // Initialize with 0
+    }
   }
   
   if (solveNQueens(board, 0, n)) {
