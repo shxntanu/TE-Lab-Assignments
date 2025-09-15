@@ -54,7 +54,7 @@ vector<Edge> KruskalsMST(vector<Edge>& edges, int V) {
   }
 
   int i = 0; // Index used to pick next edge
-  while (result.size() < V - 1) {
+  for (const Edge& edge : edges) {
     // Pick next edge from the sorted list
     Edge next_edge = edges[i++];
 
@@ -84,9 +84,13 @@ int main() {
   vector<Edge> mst = KruskalsMST(edges, V);
 
   cout << "Edges in the constructed MST: \n";
-  for (Edge edge : mst) {
+  for (const Edge& edge : mst) {
     cout << edge.src << " -- " << edge.dest << " == " << edge.weight << endl;
   }
+  if (mst.size() < V - 1) {
+    cout << "\nNote: The graph is disconnected. Forest generated instead of a single MST.\n";
+  }
+
 
   return 0;
 }
